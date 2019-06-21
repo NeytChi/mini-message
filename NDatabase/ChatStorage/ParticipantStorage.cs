@@ -1,0 +1,91 @@
+﻿using System.Collections.Generic;
+using System.Threading;
+using Common.Logging;
+using Common.Chats;
+using Common.NDatabase;
+using MySql.Data.MySqlClient;
+using MiniMessanger.Models.Chat;
+
+namespace MiniMessanger.NDatabase.ChatStorage
+{
+    public class ParticipantStorage : Storage
+    {
+        public ParticipantStorage(MySqlConnection connection, Semaphore s_locker)
+        {
+            this.connection = connection;
+            this.s_locker = s_locker;
+            SetTableName("participants");
+            SetTable
+            (
+                "CREATE TABLE IF NOT EXISTS participants" +
+                "(" +
+                    "participant_id long NOT NULL AUTO_INCREMENT, " +
+                    "chat_id int, " +
+                    "user_id int, " +
+                    "PRIMARY KEY (participants_id)" +
+                ");"
+            );
+        }
+        public void AddParticipant(ref Participant participant)
+        {
+            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO participants(chat_id, user_id)" +
+                "VALUES (@chat_id, @user_id);", connection))
+            {
+                commandSQL.Parameters.AddWithValue("@chat_id", participant.chat_id);
+                commandSQL.Parameters.AddWithValue("@user_id", participant.user_id);
+                s_locker.WaitOne();
+                commandSQL.ExecuteNonQuery();
+                participant.participant_id = (int)commandSQL.LastInsertedId;
+                commandSQL.Dispose();
+                s_locker.Release();
+            }
+            Logger.WriteLog("Add participant.participant_id->" + participant.participant_id + " to database.", LogLevel.Usual);
+        }
+        public List<Participant> SelectParticipantByChatId(int chat_id)
+        {
+            List<Participant> participants = new List<Participant>();
+            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM participants WHERE chat_id=@chat_id;", connection))
+            {
+                commandSQL.Parameters.AddWithValue("@chat_id", chat_id);
+                s_locker.WaitOne();
+                using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                {
+                    while (readerMassive.Read())
+                    {
+                        Participant participant = new Participant();
+                        participant.participant_id = readerMassive.GetInt32(0);
+                        participant.chat_id = readerMassive.GetInt32(1);
+                        participant.user_id = readerMassive.GetInt32(2);
+                        participants.Add(participant);
+                    }
+                }
+                s_locker.Release();
+            }
+            Logger.WriteLog("Select participants by chat_id->" + chat_id + ".", LogLevel.Usual);
+            return participants;
+        }
+        public List<Participant> SelectParticipantByUserId(int user_id)
+        {
+            List<Participant> participants = new List<Participant>();
+            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM participants WHERE user_id=@user_id;", connection))
+            {
+                commandSQL.Parameters.AddWithValue("@user_id", user_id);
+                s_locker.WaitOne();
+                using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                {
+                    while (readerMassive.Read())
+                    {
+                        Participant participant = new Participant();
+                        participant.participant_id = readerMassive.GetInt32(0);
+                        participant.chat_id = readerMassive.GetInt32(1);
+                        participant.user_id = readerMassive.GetInt32(2);
+                        participants.Add(participant);
+                    }
+                }
+                s_locker.Release();
+            }
+            Logger.WriteLog("Select participants by user_id->" + user_id + ".", LogLevel.Usual);
+            return participants;
+        }
+    }
+}
