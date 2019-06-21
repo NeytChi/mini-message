@@ -157,7 +157,7 @@ namespace Common.Chats
                 message.user_login = user.user_login;
                 ++user.chat_room.message_count;
                 SendToChat(message.user_id + ":\n" + message.message_text,ref user.chat_room);
-                Logger.WriteLog("Message was handled, message_id->" + message.message_id + " chat_room.room_id->" + user.chat_room.room_id, LogLevel.Usual);
+                Logger.WriteLog("Message was handled, message_id->" + message.message_id + " chat.chat_id->" + user.chat_room.chat_id, LogLevel.Usual);
             }
         }
         public void SendToChat(string message, ref ChatRoom chat)

@@ -18,10 +18,10 @@ namespace MiniMessanger.NDatabase.ChatStorage
             (
                 "CREATE TABLE IF NOT EXISTS chats" +
                 "(" +
-                    "chat_id long NOT NULL AUTO_INCREMENT," +
-                    "creator_id int," +
-                    "created_at datetime," +
-                    "PRIMARY KEY (chat_id)" +
+                    "chat_id int NOT NULL AUTO_INCREMENT, " +
+                    "creator_id int, " +
+                    "created_at datetime, " +
+                    "PRIMARY KEY (chat_id) " +
                 ");"
             );
         }
