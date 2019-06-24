@@ -83,10 +83,11 @@
     <Compile Include="Models\Chat\ChatUser.cs" />
     <Compile Include="Models\Chat\ChatRoom.cs" />
     <Compile Include="NDatabase\ChatStorage\MessageStorage.cs" />
-    <Compile Include="NDatabase\ChatStorage\ChatsStorage.cs" />
+    <Compile Include="NDatabase\ChatStorage\ChatRoomStorage.cs" />
     <Compile Include="NDatabase\ChatStorage\ParticipantStorage.cs" />
     <Compile Include="Models\Chat\Participant.cs" />
     <Compile Include="NDatabase\ProfileStorage.cs" />
+    <Compile Include="Models\Chat\ChatData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

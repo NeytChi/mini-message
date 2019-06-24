@@ -3,24 +3,28 @@ using Common.Logging;
 using System.Threading;
 using System.Net.Sockets;
 
-namespace Common.Chats
+namespace Common.Chats.Server
 {
-    public class ChatServer
+    /// <summary>
+    /// Class provides incomming point for start of chating.
+    /// Class has function "Initiation()" with start server listening.
+    /// </summary>
+    public static class ChatServer
     {
-        private ChatModule module = new ChatModule();
-        private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        public static ChatModule module = new ChatModule();
+        private static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-        public void Initiation()
+        public static void Initiation(string IP, int Port)
         {
-            IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(Config.IP), Config.Port);
+            IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(IP), Port);
             socket.Bind(iPEndPoint);
             socket.Listen(100000);
             Thread thread = new Thread(Listen);
             thread.IsBackground = true;
             thread.Start();
-            Logger.WriteLog("Initiation chat module. State of listen. IP->" + Config.IP + " Port->" + Config.Port + ".", LogLevel.Usual);
+            Logger.WriteLog("Initiation chat module. Server state->listening. IP->" + IP + " Port->" + Port + ".", LogLevel.Usual);
         }
-        private void Listen()
+        private static void Listen()
         {
             while (true)
             {
@@ -32,7 +36,7 @@ namespace Common.Chats
                 thread.Start();
             }
         }
-        private void HandleChatUser(ref Socket handleSocket)
+        private static void HandleChatUser(ref Socket handleSocket)
         {
             int bytes = 0;
             byte[] buffer = new byte[1096];

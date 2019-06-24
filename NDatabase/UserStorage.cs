@@ -28,14 +28,15 @@ namespace Common.NDatabase.UserData
                     "last_login_at int," +
                     "recovery_code int," +
                     "recovery_token varchar(50), " +
+                    "user_public_token varchar(20), " + 
                     "PRIMARY KEY (user_id)" +
                 ");"
             );
         }
         public void AddUser(ref UserCache user)
         {
-            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO users(user_email, user_login, user_password, created_at, user_hash, activate, user_token, last_login_at,recovery_code ,recovery_token)" +
-                "VALUES (@user_email, @user_login, @user_password, @created_at, @user_hash, @activate, @user_token, @last_login_at, @recovery_code, @recovery_token);", connection))
+            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO users(user_email, user_login, user_password, created_at, user_hash, activate, user_token, last_login_at,recovery_code ,recovery_token, user_public_token)" +
+                "VALUES (@user_email, @user_login, @user_password, @created_at, @user_hash, @activate, @user_token, @last_login_at, @recovery_code, @recovery_token, @user_public_token);", connection))
             {
                 commandSQL.Parameters.AddWithValue("@user_email", user.user_email);
                 commandSQL.Parameters.AddWithValue("@user_login", user.user_login);
@@ -47,6 +48,7 @@ namespace Common.NDatabase.UserData
                 commandSQL.Parameters.AddWithValue("@last_login_at", user.last_login_at);
                 commandSQL.Parameters.AddWithValue("@recovery_code", user.recovery_code);       
                 commandSQL.Parameters.AddWithValue("@recovery_token", user.recovery_token);
+                commandSQL.Parameters.AddWithValue("@user_public_token", user.user_public_token);
                 s_locker.WaitOne();
                 commandSQL.ExecuteNonQuery();
                 user.user_id = (int)commandSQL.LastInsertedId;
@@ -78,6 +80,7 @@ namespace Common.NDatabase.UserData
                         user.last_login_at = readerMassive.GetInt32("last_login_at");
                         user.recovery_code = readerMassive.GetInt32("recovery_code");
                         user.recovery_token = readerMassive.GetString("recovery_token");
+                        user.user_public_token = readerMassive.GetString("user_public_token");
                         s_locker.Release();
                         Logger.WriteLog("Select user by user_id. user.user_id->" + user_id, LogLevel.Usual);
                         answer = true;
@@ -92,12 +95,12 @@ namespace Common.NDatabase.UserData
             }
             return answer;
         }
-        public bool SelectUserById(string user_token, ref UserCache user)
+        public UserCache SelectUserForChat(int user_id)
         {
-            bool answer = false;
-            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM users WHERE user_token=@user_token;", connection))
+            UserCache user = new UserCache();
+            using (MySqlCommand commandSQL = new MySqlCommand("SELECT user_id, user_email, user_login, last_login_at, user_public_token  FROM users WHERE user_id=@user_id;", connection))
             {
-                commandSQL.Parameters.AddWithValue("@user_token", user_token);
+                commandSQL.Parameters.AddWithValue("@user_id", user_id);
                 s_locker.WaitOne();
                 using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
                 {
@@ -106,27 +109,14 @@ namespace Common.NDatabase.UserData
                         user.user_id = readerMassive.GetInt32("user_id");
                         user.user_email = readerMassive.GetString("user_email");
                         user.user_login = readerMassive.GetString("user_login");
-                        user.user_password = readerMassive.GetString("user_password");
-                        user.created_at = readerMassive.GetInt32("created_at");
-                        user.user_hash = readerMassive.GetString("user_hash");
-                        user.activate = readerMassive.GetInt16("activate");
-                        user.user_token = readerMassive.GetString("user_token");
                         user.last_login_at = readerMassive.GetInt32("last_login_at");
-                        user.recovery_code = readerMassive.GetInt32("recovery_code");
-                        user.recovery_token = readerMassive.IsDBNull(11) ? null : readerMassive.GetString("recovery_token");
-                        s_locker.Release();
-                        answer = true;
-                        Logger.WriteLog("Select user by user_token. user.user_token->" + user_token + ".", LogLevel.Usual);
-                    }
-                    else
-                    {
-                        s_locker.Release();
-                        Logger.WriteLog("Can't select user by user_token.", LogLevel.Warning);
-                        answer = false;
+                        user.user_public_token = readerMassive.GetString("user_public_token");
                     }
                 }
+                s_locker.Release();
             }
-            return answer;
+            Logger.WriteLog("Select user by user_id. user.user_id->" + user_id, LogLevel.Usual);
+            return user;
         }
         public bool SelectUserByEmail(string user_email, ref UserCache user)
         {
@@ -150,6 +140,7 @@ namespace Common.NDatabase.UserData
                         user.last_login_at = readerMassive.GetInt32("last_login_at");
                         user.recovery_code = readerMassive.GetInt32("recovery_code");
                         user.recovery_token = readerMassive.IsDBNull(11) ? null : readerMassive.GetString("recovery_token");
+                        user.user_public_token = readerMassive.GetString("user_public_token");
                         answer = true;
                     }
                     else
@@ -162,11 +153,12 @@ namespace Common.NDatabase.UserData
             Logger.WriteLog("Select user by user_email. Success->" + answer, LogLevel.Usual);
             return answer;
         }
-        public List<UserCache> SelectUsers(int since, int count)
+        public List<UserCache> SelectUsers(int user_id, int since, int count)
         {
             List <UserCache> users = new List<UserCache>();
-            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM users ORDER BY user_id DESC LIMIT @since, @count;", connection))
+            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM users WHERE user_id<>@user_id ORDER BY user_id DESC LIMIT @since, @count;", connection))
             {
+                commandSQL.Parameters.AddWithValue("@user_id", user_id);
                 commandSQL.Parameters.AddWithValue("@since", since);
                 commandSQL.Parameters.AddWithValue("@count", count);
                 s_locker.WaitOne();
@@ -180,6 +172,7 @@ namespace Common.NDatabase.UserData
                         user.user_login = readerMassive.GetString("user_login");
                         user.created_at = readerMassive.GetInt32("created_at");
                         user.last_login_at = readerMassive.GetInt32("last_login_at");
+                        user.user_public_token = readerMassive.GetString("user_public_token");
                         users.Add(user);
                     }
                 }
@@ -210,6 +203,18 @@ namespace Common.NDatabase.UserData
             Logger.WriteLog("Select user by recovery_token. Success->" + answer, LogLevel.Usual);
             return answer;
         }
+        public bool SelectUserByPublicToken(string user_public_token, ref UserCache user)
+        {
+            bool answer = false;
+            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM users WHERE user_public_token=@user_public_token;", connection))
+            {
+                commandSQL.Parameters.AddWithValue("@user_public_token", user_public_token);
+                answer = GetUser(commandSQL, ref user);
+            }
+            Logger.WriteLog("Select user by user_public_token. Success->" + answer, LogLevel.Usual);
+            return answer;
+        }
+
         private bool GetUser(MySqlCommand commandSQL, ref UserCache user)
         {
             bool success = false;
@@ -229,6 +234,7 @@ namespace Common.NDatabase.UserData
                     user.last_login_at = readerMassive.GetInt32("last_login_at");
                     user.recovery_code = readerMassive.GetInt32("recovery_code");
                     user.recovery_token = readerMassive.IsDBNull(11) ? null : readerMassive.GetString("recovery_token");
+                    user.user_public_token = readerMassive.GetString("user_public_token");
                     success = true;
                 }
                 else

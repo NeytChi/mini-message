@@ -39,7 +39,7 @@ namespace Common.NDatabase.UserData
             }
             Logger.WriteLog("Add profile.user_id->" + profile.user_id + " to database.", LogLevel.Usual);
         }
-        public bool SelectUserById(int user_id, ref ProfileData profile)
+        public bool SelectByUserId(int user_id, ref ProfileData profile)
         {
             bool answer = false;
             using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM profiles WHERE user_id=@user_id;", connection))
@@ -52,18 +52,13 @@ namespace Common.NDatabase.UserData
                     {
                         profile.profile_id = readerMassive.GetInt32(0);
                         profile.user_id = readerMassive.GetInt32(1);
-                        profile.url_photo = readerMassive.GetString(2);
-                        s_locker.Release();
-                        Logger.WriteLog("Select profile by user_id. profile.user_id->" + user_id, LogLevel.Usual);
+                        profile.url_photo = readerMassive.IsDBNull(2) ? null : readerMassive.GetString(2);
                         answer = true;
-                    }
-                    else
-                    {
-                        Logger.WriteLog("Can not select profile by user_id.", LogLevel.Warning);
                     }
                 }
                 s_locker.Release();
             }
+            Logger.WriteLog("Select profile by user_id. profile.user_id->" + user_id + ". Success->" + answer, LogLevel.Usual);
             return answer;
         }
         public bool DeleteProfile(int user_id)

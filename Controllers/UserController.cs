@@ -66,6 +66,7 @@ namespace Common.Functional.UserF
                         user.last_login_at = user.created_at;
                         user.user_token = Validator.GenerateHash(40);
                         user.recovery_code = 0;
+                        user.user_public_token = Validator.GenerateHash(20);
                         Database.user.AddUser(ref user);
                         ProfileData profile = new ProfileData();
                         profile.user_id = user.user_id;
@@ -251,15 +252,15 @@ namespace Common.Functional.UserF
                 FileD file = new FileD();
                 if (request.GetFileRequest(ref file))
                 {
+                    Console.WriteLine(file.file_type);
                     if (file.file_type == "image")
                     {
                         ProfileData profile = new ProfileData();
-                        Database.profile.SelectUserById(user.user_id, ref profile);
+                        Database.profile.SelectByUserId(user.user_id, ref profile);
                         LoaderFile.SaveFile(ref file, "/ProfilePhoto/");
                         profile.url_photo = "http://" + domen + file.file_path + file.file_name;
                         Database.profile.UpdateUrlPhoto(user.user_id, profile.url_photo);
-                        user.profile = profile;
-                        request.ResponseJsonData(user);
+                        request.ResponseJsonData(profile);
                         Logger.WriteLog("Update profile photo", LogLevel.Usual);
                     }
                     else { message = "File type is not correct."; }
@@ -279,12 +280,12 @@ namespace Common.Functional.UserF
             {
                 int page = 0;
                 Int32.TryParse(request.HeadParameter("page"), out page);
-                List<UserCache> users = Database.user.SelectUsers(page * 30, 30);
+                List<UserCache> users = Database.user.SelectUsers(user.user_id, page * 30, 30);
                 for(int i = 0; i < users.Count; i++)
                 {
                     UserCache cache = users[i];
                     ProfileData profile = new ProfileData();
-                    Database.profile.SelectUserById(cache.user_id, ref profile);
+                    Database.profile.SelectByUserId(cache.user_id, ref profile);
                     cache.profile = profile;
                     users[i] = cache;
                 }
@@ -296,6 +297,10 @@ namespace Common.Functional.UserF
             request.ResponseJsonAnswer(false, message);
             Logger.WriteLog(message, LogLevel.Warning);
         }
+        /// <summary>
+        /// Select list of chats. Get last message data, user's data of chat and chat data.
+        /// </summary>
+        /// <param name="request">Request.</param>
         public void SelectChats(ref HttpRequest request)
         {
             string message = null;
@@ -305,20 +310,20 @@ namespace Common.Functional.UserF
             {
                 int page = 0;
                 Int32.TryParse(request.HeadParameter("page"), out page);
+                List<ChatData> chats = new List<ChatData>();
                 List<Participant> participants = Database.participant.SelectParticipantByUserId(user.user_id);
-
-                List<ChatRoom> chats = Database.chats.SelectByUserId(user.user_id);
-                /*List<UserCache> users = Database.user.SelectUsers(page * 30, 30);
-                for (int i = 0; i < users.Count; i++)
+                foreach (Participant participant in participants)
                 {
-                    UserCache cache = users[i];
-                    ProfileData profile = new ProfileData();
-                    Database.profile.SelectUserById(cache.user_id, ref profile);
-                    cache.profile = profile;
-                    users[i] = cache;
+                    ChatData data = new ChatData();
+                    ChatRoom room = new ChatRoom();
+                    Database.chat.SelectChatById(participant.chat_id, ref room);
+                    data.chat = room;
+                    data.user = Database.user.SelectUserForChat(participant.opposide_id);
+                    data.last_message = Database.message.SelectLastMessage(room.chat_id);
+                    chats.Add(data);
                 }
-                request.ResponseJsonData(users);
-                Logger.WriteLog("Get users list.", LogLevel.Usual);*/
+                request.ResponseJsonData(chats);
+                Logger.WriteLog("Get list of chats.", LogLevel.Usual);
                 return;
             }
             else { message = "No user with that user_token."; }
@@ -332,7 +337,22 @@ namespace Common.Functional.UserF
             UserCache user = new UserCache();
             if (Database.user.SelectUserByToken(user_token, ref user))
             {
-
+                ChatRoom room = new ChatRoom();
+                string chat_token = request.FormField("chat_token");
+                if (Database.chat.SelectChatByToken(ref chat_token, ref room))
+                {
+                    int page = 0;
+                    Int32.TryParse(request.HeadParameter("page"), out page);
+                    List<Message> messages = Database.message.SelectMessageByChatId(room.chat_id, page * 50, page * 50 + 50);
+                    request.ResponseJsonData(messages);
+                    if(!messages[messages.Count - 1].message_viewed && messages[messages.Count - 1].user_id != user.user_id)
+                    {
+                        Database.message.UpdateMessages(room.chat_id, true);
+                    }
+                    Logger.WriteLog("Get list of messages, chat_id->" + room.chat_id, LogLevel.Usual);
+                    return;
+                }
+                else { message = "Server can't define chat by chat_token."; }
             }
             else { message = "No user with that user_token."; }
             request.ResponseJsonAnswer(false, message);

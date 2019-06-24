@@ -24,7 +24,8 @@ namespace Common.NDatabase
         public static FileStorage file;
 
         public static ParticipantStorage participant;
-        public static ChatsStorage chats;
+        public static ChatRoomStorage chat;
+        public static MessageStorage message;
 
         public static List<Storage> storages = new List<Storage>();
         public static Semaphore s_locker = new Semaphore(1, 1);
@@ -52,13 +53,15 @@ namespace Common.NDatabase
             file = new FileStorage(connection, s_locker);
             profile = new ProfileStorage(connection, s_locker);
             participant = new ParticipantStorage(connection, s_locker);
-            chats = new ChatsStorage(connection, s_locker);
+            chat = new ChatRoomStorage(connection, s_locker);
+            message = new MessageStorage(connection, s_locker);
             storages.Add(user);
             storages.Add(log);
             storages.Add(file);
             storages.Add(profile);
-            storages.Add(chats);
+            storages.Add(chat);
             storages.Add(participant);
+            storages.Add(message);
         }
         public static bool GetJsonConfig()
         {

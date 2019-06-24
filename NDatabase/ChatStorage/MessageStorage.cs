@@ -18,11 +18,10 @@ namespace MiniMessanger.NDatabase.ChatStorage
             (
                 "CREATE TABLE IF NOT EXISTS messages" +
                 "(" +
-                    "message_id long NOT NULL AUTO_INCREMENT," +
-                    "chat_id long," +
+                    "message_id bigint NOT NULL AUTO_INCREMENT," +
+                    "chat_id int," +
                     "user_id int," +
-                    "user_login varchar(50)," +
-                    "message_text varchar(300)," +
+                    "message_text varchar(500)," +
                     "message_viewed bool," +
                     "created_at datetime," +
                     "PRIMARY KEY (message_id)" +
@@ -31,12 +30,11 @@ namespace MiniMessanger.NDatabase.ChatStorage
         }
         public void AddMessage(ref Message message)
         {
-            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO messages(chat_id, user_id, user_login, message_text, message_viewed, created_at)" +
-                "VALUES (@chat_id, @user_id, @user_login, @message_text, @message_viewed, @created_at);", connection))
+            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO messages(chat_id, user_id, message_text, message_viewed, created_at)" +
+                "VALUES (@chat_id, @user_id, @message_text, @message_viewed, @created_at);", connection))
             {
                 commandSQL.Parameters.AddWithValue("@chat_id", message.chat_id);
                 commandSQL.Parameters.AddWithValue("@user_id", message.user_id);
-                commandSQL.Parameters.AddWithValue("@user_login", message.user_login);
                 commandSQL.Parameters.AddWithValue("@message_text", message.message_text);
                 commandSQL.Parameters.AddWithValue("@message_viewed", message.message_viewed);
                 commandSQL.Parameters.AddWithValue("@created_at", message.created_at);
@@ -65,10 +63,10 @@ namespace MiniMessanger.NDatabase.ChatStorage
                         message.message_id = readerMassive.GetInt64(0);
                         message.chat_id = readerMassive.GetInt64(1);
                         message.user_id = readerMassive.GetInt32(2);
-                        message.user_login = readerMassive.GetString(3);
-                        message.message_text = readerMassive.GetString(4);
-                        message.message_viewed = readerMassive.GetBoolean(5);
-                        message.created_at = readerMassive.GetDateTime(6);
+                        message.message_text = readerMassive.GetString(3);
+                        message.message_viewed = readerMassive.GetBoolean(4);
+                        message.created_at = readerMassive.GetDateTime(5);
+                        messages.Add(message);
                     }
                 }
                 s_locker.Release();
@@ -90,16 +88,28 @@ namespace MiniMessanger.NDatabase.ChatStorage
                         message.message_id = readerMassive.GetInt64(0);
                         message.chat_id = readerMassive.GetInt64(1);
                         message.user_id = readerMassive.GetInt32(2);
-                        message.user_login = readerMassive.GetString(3);
-                        message.message_text = readerMassive.GetString(4);
-                        message.message_viewed = readerMassive.GetBoolean(5);
-                        message.created_at = readerMassive.GetDateTime(6);
+                        message.message_text = readerMassive.GetString(3);
+                        message.message_viewed = readerMassive.GetBoolean(4);
+                        message.created_at = readerMassive.GetDateTime(5);
                     }
                 }
                 s_locker.Release();
             }
             Logger.WriteLog("Select last message by chat_id->" + chat_id + ".", LogLevel.Usual);
             return message;
+        }
+        public void UpdateMessages(int chat_id, bool message_viewed)
+        {
+            s_locker.WaitOne();
+            using (MySqlCommand commandSQL = new MySqlCommand("UPDATE messages SET message_viewed=@message_viewed WHERE chat_id=@chat_id;", connection))
+            {
+                commandSQL.Parameters.AddWithValue("@message_viewed", message_viewed);
+                commandSQL.Parameters.AddWithValue("@chat_id", chat_id);
+                commandSQL.ExecuteNonQuery();
+                commandSQL.Dispose();
+            }
+            s_locker.Release();
+            Logger.WriteLog("Update message_viewed of messages.", LogLevel.Usual);
         }
     }
 }

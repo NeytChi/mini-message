@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO;
 using Common.Logging;
 using Common.NDatabase;
 using System.Diagnostics;
-using Common.Functional.Pass;
+using Common.Chats.Server;
+using Newtonsoft.Json.Linq;
 using Common.Functional.Mail;
 using Common.Functional.UserF;
 
@@ -20,9 +20,10 @@ namespace Common
             Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
             Config.Initialization();
-
             Database.Initialization(false);
             MailF.Init();
+            ChatServer.Initiation(Config.IP, Config.GetConfigValue("chat_port", JTokenType.Integer));
+
             if (args.Length != 0)
             {
                 switch (args[0])
@@ -34,7 +35,18 @@ namespace Common
                         Database.DropTables();
                         Database.connection.Close();
                         break;
+                    case "-v":
+                        ChatServer.module.request_view = true;
+                        Server server = new Server();
+                        server.port = Config.Port;
+                        server.ip = Config.IP;
+                        server.domen = Config.Domen;
+                        UsersController user = new UsersController(Config.Domen);
+                        server.InitListenSocket();
+                        break;
                     case "-h":
+                    case "--h":
+                    case "--help":
                     case "-help":
                         Helper();
                         break;
@@ -55,13 +67,13 @@ namespace Common
         }
         public static void Helper()
         {
-            string[] commands = { "-f [time_in_minutes]", "-r", "-c", "-h or -help" };
+            string[] commands = { "-r", "-c", "-v", "-h or -help" };
             string[] description =
             {
-                "Start server in full working cycle.",
                 "Start reading logs from server." ,
                 "Start the database cleanup mode." ,
-                "Helps contains 5 modes of the server that cound be used."
+                "Start server's listing with request vision mode." ,
+                "Helps contains 4 modes of the server that cound be used."
             };
             for (int i = 0; i < commands.Length; i++)
             {

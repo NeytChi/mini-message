@@ -21,6 +21,6 @@ namespace Common.NDatabase.UserData
         public int recovery_code;
         public string recovery_token;
         public ProfileData profile;
-        public Message last_message;
+        public string user_public_token;
     }
 }
