@@ -8,6 +8,7 @@ using Common.Functional.Pass;
 using Common.NDatabase.UserData;
 using System.Collections.Generic;
 using MiniMessanger.Models.Chat;
+using Newtonsoft.Json;
 
 namespace Common.Chats
 {
@@ -185,7 +186,12 @@ namespace Common.Chats
             else
             {
                 Logger.WriteLog("Can't get protocol patameter value, number->" + number, LogLevel.Usual);
-                return null;
+                switch (type)
+                {
+                    case TypeCode.Int32: return -1;
+                    case TypeCode.String: return null;
+                    default: return null;
+                }
             }
         }
         public void HandleMessage(ref string request, ref ChatUser user, int position_message)
@@ -226,8 +232,8 @@ namespace Common.Chats
             {
                 foreach (ChatUser user in rooms[chat_id].users)
                 {
-                    string message_json = 
-                    SendSocket(ref user.remoteSocket, ref message.message_text);
+                    string message_json = JsonConvert.SerializeObject(message); 
+                    SendSocket(ref user.remoteSocket, ref message_json);
                     if (user.user_id != message.user_id)
                     {
                         message.message_viewed = true;

@@ -4,6 +4,7 @@ using Common.Routing;
 using Common.Logging;
 using Common.NDatabase;
 using Common.FileSystem;
+using Common.Chats.Server;
 using Newtonsoft.Json.Linq;
 using MiniMessanger.Models;
 using Common.Functional.Pass;
@@ -12,7 +13,6 @@ using Common.NDatabase.UserData;
 using System.Collections.Generic;
 using Common.NDatabase.FileData;
 using MiniMessanger.Models.Chat;
-using Common.Chats.Server;
 using System.Net;
 
 namespace Common.Functional.UserF
@@ -34,6 +34,7 @@ namespace Common.Functional.UserF
             Router.AddRoute(new Route("POST", "users/RecoveryPassword", RecoveryPassword));
             Router.AddRoute(new Route("POST", "users/CheckRecoveryCode", CheckRecoveryCode));
             Router.AddRoute(new Route("POST", "users/ChangePassword", ChangePassword));
+            Router.AddRoute(new Route("POST", "users/RegistrationEmail", RegistrationEmail));
             Router.AddRoute(new Route("POST", "users/Delete", Delete));
             Router.AddRoute(new Route("GET",  "users/Activate", Activate));
             Router.AddRoute(new Route("POST", "users/UpdateProfile", UpdateProfile)); 
@@ -119,6 +120,24 @@ namespace Common.Functional.UserF
                 else { message = "Wrong password."; }
             }
             else { message = "No user with such email."; }
+            request.ResponseJsonAnswer(false, message);
+            Logger.WriteLog(message, LogLevel.Warning);
+        }
+        public void RegistrationEmail(ref HttpRequest request)
+        {
+            string message = null;
+            UserCache user = new UserCache();
+            if (Database.user.SelectUserByEmail(request.FormField("user_email"), ref user))
+            {
+                MailF.SendEmail(user.user_email, "Activate account", "Activate account url: <a href=http://" + Config.IP + ":" + Config.Port + "/v1.0/users/Activate/?hash=" + user.user_hash + ">Activation url!</a>");
+                request.ResponseJsonAnswer(true, "Send registration email to user. See your email to activate account by url.");
+                Logger.WriteLog("Send registration email to user, user_id=" + user.user_id, LogLevel.Usual);
+                return;
+            }
+            else
+            {
+                message = "Can't define user by user_email.";
+            }
             request.ResponseJsonAnswer(false, message);
             Logger.WriteLog(message, LogLevel.Warning);
         }
@@ -369,9 +388,6 @@ namespace Common.Functional.UserF
             request.ResponseJsonAnswer(false, message);
             Logger.WriteLog(message, LogLevel.Warning);
         }
-
-        //string connection = Encoding.UTF8.GetString(buffer, 0, bytes);
-
         public void CreateChat(ref HttpRequest request)
         {
             string message = null;
