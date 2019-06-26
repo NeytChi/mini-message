@@ -9,3 +9,4 @@
 /home/neytchi/Projects/MiniMessanger/MiniMessanger/obj/x86/Release/MiniMessanger.csproj.CoreCompileInputs.cache
 /home/neytchi/Projects/MiniMessanger/MiniMessanger/obj/x86/Release/MiniMessanger.csproj.CopyComplete
 /home/neytchi/Projects/MiniMessanger/MiniMessanger/obj/x86/Release/MiniMessanger.exe
+/home/neytchi/Projects/MiniMessanger/MiniMessanger/obj/x86/Release/MiniMessanger.csprojAssemblyReference.cache

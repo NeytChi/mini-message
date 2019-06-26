@@ -1,6 +1,7 @@
 {
 	"ip" : "127.0.0.1",
 	"port" : 8020,
+	"chat_port" : 8021,
 	"domen" : "MiniMessanger",
 	"mail_address" : "test6574839210@gmail.com", 
 	"mail_password" : "GmailPassword1234",

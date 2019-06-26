@@ -203,22 +203,38 @@ namespace Common.Chats
             message.created_at = DateTime.Now;
             if (!string.IsNullOrEmpty(message.message_text))
             {
-                message.user_id = user.user_id;
                 SendToChat(ref message, ref user.chat_id);
                 Database.message.AddMessage(ref message);
                 Logger.WriteLog("Message was handled, message_id->" + message.message_id + " chat.chat_id->" + user.chat_id, LogLevel.Usual);
             }
         }
+        public void HandleMessage(ref string message_text, int chat_id, int user_id)
+        {
+            Message message = new Message();
+            message.chat_id = chat_id;
+            message.user_id = user_id;
+            message.message_text = message_text;
+            message.message_viewed = false;
+            message.created_at = DateTime.Now;
+            Database.message.AddMessage(ref message);
+            Logger.WriteLog("Message was handled, message_id->" + message.message_id + " chat.chat_id->" + chat_id, LogLevel.Usual);
+        }
+
         public void SendToChat(ref Message message, ref int chat_id)
         {
-            foreach (ChatUser user in rooms[chat_id].users)
+            if (rooms.ContainsKey(chat_id))
             {
-                SendSocket(ref user.remoteSocket, ref message.message_text);
-                if (user.user_id != message.user_id)
+                foreach (ChatUser user in rooms[chat_id].users)
                 {
-                    message.message_viewed = true;
+                    string message_json = 
+                    SendSocket(ref user.remoteSocket, ref message.message_text);
+                    if (user.user_id != message.user_id)
+                    {
+                        message.message_viewed = true;
+                    }
                 }
             }
+            Logger.WriteLog("Handle message to chat, chat_id->" + chat_id + ".", LogLevel.Usual);
         }
     }
 }

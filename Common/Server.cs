@@ -259,8 +259,7 @@ namespace Common
             {
                 request.remoteSocket.Send(requestbyte);
             }
-            GC.Collect();
-            Logger.WriteLog("HTTP Response 127.0.0.1:8000/LogInfo/", LogLevel.Usual);
+            Logger.WriteLog("Get http logs data.", LogLevel.Usual);
         }
         private void HttpIternalServerError(ref Socket remoteSocket)
         {

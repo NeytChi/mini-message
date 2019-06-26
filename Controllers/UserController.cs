@@ -1,17 +1,19 @@
 ﻿using System;
+using Common.Chats;
 using Common.Routing;
 using Common.Logging;
 using Common.NDatabase;
+using Common.FileSystem;
+using Newtonsoft.Json.Linq;
+using MiniMessanger.Models;
 using Common.Functional.Pass;
 using Common.Functional.Mail;
 using Common.NDatabase.UserData;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using MiniMessanger.Models;
 using Common.NDatabase.FileData;
-using Common.FileSystem;
-using Common.Chats;
 using MiniMessanger.Models.Chat;
+using Common.Chats.Server;
+using System.Net;
 
 namespace Common.Functional.UserF
 {
@@ -27,17 +29,19 @@ namespace Common.Functional.UserF
         {
             this.domen = domen;
             Router.AddRoute(new Route("POST", "users/Registration", Registration));
-            Router.AddRoute(new Route("PUT", "users/Login", Login));
-            Router.AddRoute(new Route("PUT", "users/LogOut", LogOut));
+            Router.AddRoute(new Route("PUT",  "users/Login", Login));
+            Router.AddRoute(new Route("PUT",  "users/LogOut", LogOut));
             Router.AddRoute(new Route("POST", "users/RecoveryPassword", RecoveryPassword));
             Router.AddRoute(new Route("POST", "users/CheckRecoveryCode", CheckRecoveryCode));
             Router.AddRoute(new Route("POST", "users/ChangePassword", ChangePassword));
             Router.AddRoute(new Route("POST", "users/Delete", Delete));
-            Router.AddRoute(new Route("GET", "users/Activate", Activate));
+            Router.AddRoute(new Route("GET",  "users/Activate", Activate));
             Router.AddRoute(new Route("POST", "users/UpdateProfile", UpdateProfile)); 
-            Router.AddRoute(new Route("PUT", "users/GetUsersList", GetUsersList));
-            Router.AddRoute(new Route("PUT", "users/SelectChats", SelectChats));
+            Router.AddRoute(new Route("PUT",  "users/GetUsersList", GetUsersList));
+            Router.AddRoute(new Route("PUT",  "users/SelectChats", SelectChats));
             Router.AddRoute(new Route("PUT", "users/SelectMessages", SelectMessages));
+            Router.AddRoute(new Route("POST", "users/CreateChat", CreateChat));
+            Router.AddRoute(new Route("POST", "users/SendMessage", SendMessage));
         }
         /// <summary>
         /// Registration user by specified request.
@@ -106,7 +110,11 @@ namespace Common.Functional.UserF
                         Logger.WriteLog("Login user, user_id=" + user.user_id, LogLevel.Usual);
                         return;
                     }
-                    else { message = "User account is not activate."; }
+                    else 
+                    {
+                        MailF.SendEmail(user.user_email, "Activate account", "Activate account url: <a href=http://" + Config.IP + ":" + Config.Port + "/v1.0/users/Activate/?hash=" + user.user_hash + ">Activation url!</a>");
+                        message = "User account is not activate."; 
+                    }
                 }
                 else { message = "Wrong password."; }
             }
@@ -345,9 +353,12 @@ namespace Common.Functional.UserF
                     Int32.TryParse(request.HeadParameter("page"), out page);
                     List<Message> messages = Database.message.SelectMessageByChatId(room.chat_id, page * 50, page * 50 + 50);
                     request.ResponseJsonData(messages);
-                    if(!messages[messages.Count - 1].message_viewed && messages[messages.Count - 1].user_id != user.user_id)
+                    if (messages.Count > 0)
                     {
-                        Database.message.UpdateMessages(room.chat_id, true);
+                        if (!messages[messages.Count - 1].message_viewed && messages[messages.Count - 1].user_id != user.user_id)
+                        {
+                            Database.message.UpdateMessages(room.chat_id, true);
+                        }
                     }
                     Logger.WriteLog("Get list of messages, chat_id->" + room.chat_id, LogLevel.Usual);
                     return;
@@ -357,6 +368,94 @@ namespace Common.Functional.UserF
             else { message = "No user with that user_token."; }
             request.ResponseJsonAnswer(false, message);
             Logger.WriteLog(message, LogLevel.Warning);
+        }
+
+        //string connection = Encoding.UTF8.GetString(buffer, 0, bytes);
+
+        public void CreateChat(ref HttpRequest request)
+        {
+            string message = null;
+            string message_text = request.RequiredJsonField("message_text", JTokenType.String);
+            if (message_text == null) return;
+            message_text = WebUtility.UrlDecode(message_text);
+            if (!string.IsNullOrEmpty(message_text))
+            {
+                string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+                if (user_token == null) return;
+                UserCache user = new UserCache();
+                if (Database.user.SelectUserByToken(user_token, ref user))
+                {
+                    ChatRoom room = new ChatRoom();
+                    room.users = new List<ChatUser>();
+                    string opposide_public_token = request.RequiredJsonField("opposide_public_token", JTokenType.String);
+                    if (opposide_public_token == null) return;
+                    UserCache interlocutor = new UserCache();
+                    if (Database.user.SelectUserByPublicToken(opposide_public_token, ref interlocutor))
+                    {
+                        Participant participant = new Participant();
+                        if (!Database.participant.SelectByUserOpposideId(user.user_id, interlocutor.user_id, ref participant))
+                        {
+                            room.chat_token = Validator.GenerateHash(20);
+                            room.created_at = DateTime.Now;
+                            Database.chat.AddChat(ref room);
+                            Participant user_participant = new Participant();
+                            user_participant.chat_id = room.chat_id;
+                            user_participant.user_id = user.user_id;
+                            user_participant.opposide_id = interlocutor.user_id;
+                            Database.participant.AddParticipant(ref user_participant);
+                            Participant opposide_participant = new Participant();
+                            opposide_participant.chat_id = room.chat_id;
+                            opposide_participant.user_id = interlocutor.user_id;
+                            opposide_participant.opposide_id = user.user_id;
+                            Database.participant.AddParticipant(ref opposide_participant);
+                            Logger.WriteLog("Create chat for user_id->" + user.user_id + " and opposide_id->" + interlocutor.user_id + ".", LogLevel.Usual);
+                        }
+                        else
+                        {
+                            Database.chat.SelectChatById(participant.chat_id, ref room);
+                            Logger.WriteLog("Select exist chat for user_id->" + user.user_id + " and opposide_id->" + interlocutor.user_id + ".", LogLevel.Usual);
+                        }
+                        request.ResponseJsonData(room);
+                        Logger.WriteLog("Create/Select chat chat_id->" + room.chat_id + ".", LogLevel.Usual);
+                        ChatServer.module.HandleMessage(ref message_text, room.chat_id, user.user_id);
+                    } else { message = "Can't define interlocutor by interlocutor_public_token from request's body."; }
+                } else { message = "No user with that user_token."; }
+            } else { message = "Can't get message_text from request."; }
+            request.ResponseJsonAnswer(false, message);
+            Logger.WriteLog(message, LogLevel.Warning);
+        }
+        public void SendMessage(ref HttpRequest request)
+        {
+            string error = null;
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
+            string chat_token = request.RequiredJsonField("chat_token", JTokenType.String);
+            if (chat_token == null) return;
+            string message_text = request.RequiredJsonField("message_text", JTokenType.String);
+            if (message_text == null) return;
+            UserCache user = new UserCache();
+            if (!string.IsNullOrEmpty(message_text))
+            {
+                if (Database.user.SelectUserByToken(user_token, ref user))
+                {
+                    ChatRoom room = new ChatRoom();
+                    if (Database.chat.SelectChatByToken(ref chat_token, ref room))
+                    {
+                        Message message = new Message();
+                        message.chat_id = room.chat_id;
+                        message.user_id = user.user_id;
+                        message.message_text = message_text;
+                        message.message_viewed = false;
+                        message.created_at = DateTime.Now;
+                        ChatServer.module.SendToChat(ref message, ref room.chat_id);
+                        Database.message.AddMessage(ref message);
+                        request.ResponseJsonData(message);
+                        Logger.WriteLog("Message was handled, message_id->" + message.message_id + " chat.chat_id->" + room.chat_id, LogLevel.Usual);
+                    } else { error = "Server can't define chat by chat_token."; }
+                } else { error = "No user with that user_token."; }
+            } else { error = "Message is empty. Server willn't upload this message."; }
+            request.ResponseJsonAnswer(false, error);
+            Logger.WriteLog(error, LogLevel.Warning);
         }
     }
 }
