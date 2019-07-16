@@ -15,15 +15,18 @@ namespace Common.FileSystem
         private static Random random = new Random();
         public static string CurrentDirectory = Directory.GetCurrentDirectory();
         public static string PathToFiles = "/files/";
-        private static Regex ContentDispositionPattern = new Regex("Content-Disposition: form-data;" +
-                                                            " name=\"(.*)\"; filename=\"(.*)\"\r\n" +
-                                                            "Content-Type: (.*)\r\n\r\n", RegexOptions.Compiled);
+        private static Regex ContentDispositionPattern = new Regex
+        (
+            "Content-Disposition: form-data; name=\"(.*)\"; filename=\"(.*)\"\r\n",
+            RegexOptions.Compiled
+        );
+        private static Regex StartFilePattern = new Regex("\r\n\r\n", RegexOptions.Compiled);
         private static string[] availableExtentions = { "image", "video", "audio", "application" };
         public static string DailyDirectory;
 
         public static string DomenName = Config.Domen;
-        public static string DailyPath;
-        public static DateTime CurrentTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1);
+        public static DateTime CurrentTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+        public static string DailyPath = CurrentTime.Day + "-" + CurrentTime.Month + "-" + CurrentTime.Year + "/";
 
         /// <summary>
         /// Save file by specific path and get filled FileD structure data by that.
@@ -82,21 +85,24 @@ namespace Common.FileSystem
                 Regex endBoundaryPattern = new Regex(EndBoundaryAscii);
                 while (!endRequest)
                 {
-                    Match contentFile = ContentDispositionPattern.Match(AsciiRequest, last_position);
-                    if (contentFile.Success && boundariesAscii.Count < count_files)
+                    Match startRequestFile = ContentDispositionPattern.Match(AsciiRequest, last_position);
+                    if (startRequestFile.Success)
                     {
-                        last_position = contentFile.Index + contentFile.Length;
-                        Match boundary = endBoundaryPattern.Match(AsciiRequest, last_position);
-                        if (boundary.Success)
+                        last_position = startRequestFile.Index + startRequestFile.Length;
+                        Match contentFile = StartFilePattern.Match(AsciiRequest, last_position);
+                        if (contentFile.Success && boundariesAscii.Count < count_files)
                         {
-                            dispositionsAscii.Add(contentFile);
-                            boundariesAscii.Add(boundary);
+                            last_position = contentFile.Index + contentFile.Length;
+                            Match boundary = endBoundaryPattern.Match(AsciiRequest, last_position);
+                            if (boundary.Success)
+                            {
+                                dispositionsAscii.Add(contentFile);
+                                boundariesAscii.Add(boundary);
+                            }
                         }
+                        else { endRequest = true; }
                     }
-                    else
-                    {
-                        endRequest = true;
-                    }
+                    else { endRequest = true; }
                 }
                 for (int i = 0; i < dispositionsAscii.Count; i++)
                 {
@@ -188,15 +194,7 @@ namespace Common.FileSystem
             {
                 if (request.Contains("boundary="))
                 {
-                    if (request.Contains("Connection: keep-alive") || request.Contains("connection: keep-alive"))
-                    {
-                        return true;
-                    }
-                    else 
-                    {
-                        Logger.WriteLog("Can not find (connection: keep-alive) in request, function CheckHeadersFileRequest", LogLevel.Error);
-                        return false; 
-                    }
+                    return true;
                 }
                 else 
                 {

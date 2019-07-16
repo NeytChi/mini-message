@@ -46,6 +46,15 @@ namespace Common.NDatabase
             Logger.WriteLog("Initilization database->" + defaultNameDB + " done.", LogLevel.Usual);
             Console.WriteLine("MySQL connected.");
         }
+        public static void ConnectNew()
+        {
+            connection = new MySqlConnection(connectionstring.ToString());
+            connection.Open();
+            foreach (Storage storage in storages)
+            {
+                storage.SetConnection(ref connection);
+            }
+        }
         private static void SetMainStorages()
         {
             user = new UserStorage(connection, s_locker);

@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -32,22 +33,32 @@ namespace Common.NDatabase.LogData
         }
         public void AddLogs(ref Log log)
         {
-            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO logs( log, user_computer, seconds, minutes, hours, day, month, year, level) " +
-                "VALUES( @log, @user_computer, @seconds, @minutes, @hours, @day, @month, @year, @level);", connection))
+            try
             {
-                commandSQL.Parameters.AddWithValue("@log", log.log);
-                commandSQL.Parameters.AddWithValue("@user_computer", log.user_computer);
-                commandSQL.Parameters.AddWithValue("@seconds", log.seconds);
-                commandSQL.Parameters.AddWithValue("@minutes", log.minutes);
-                commandSQL.Parameters.AddWithValue("@hours", log.hours);
-                commandSQL.Parameters.AddWithValue("@day", log.day);
-                commandSQL.Parameters.AddWithValue("@month", log.month);
-                commandSQL.Parameters.AddWithValue("@year", log.year);
-                commandSQL.Parameters.AddWithValue("@level", log.level);
-                s_locker.WaitOne();
-                commandSQL.ExecuteNonQuery();
-                commandSQL.Dispose();
+                using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO logs( log, user_computer, seconds, minutes, hours, day, month, year, level) " +
+                    "VALUES( @log, @user_computer, @seconds, @minutes, @hours, @day, @month, @year, @level);", connection))
+                {
+                    commandSQL.Parameters.AddWithValue("@log", log.log);
+                    commandSQL.Parameters.AddWithValue("@user_computer", log.user_computer);
+                    commandSQL.Parameters.AddWithValue("@seconds", log.seconds);
+                    commandSQL.Parameters.AddWithValue("@minutes", log.minutes);
+                    commandSQL.Parameters.AddWithValue("@hours", log.hours);
+                    commandSQL.Parameters.AddWithValue("@day", log.day);
+                    commandSQL.Parameters.AddWithValue("@month", log.month);
+                    commandSQL.Parameters.AddWithValue("@year", log.year);
+                    commandSQL.Parameters.AddWithValue("@level", log.level);
+                    s_locker.WaitOne();
+                    commandSQL.ExecuteNonQuery();
+                    commandSQL.Dispose();
+                    s_locker.Release();
+                }
+            }
+            catch (Exception e)
+            {
                 s_locker.Release();
+                Database.ConnectNew();
+                Console.WriteLine(e.Message);
+                Logger.WriteLog(e.Message, LogLevel.Fatal);
             }
         }
         public List<Log> SelectLogs()

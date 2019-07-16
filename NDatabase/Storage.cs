@@ -11,6 +11,10 @@ namespace Common.NDatabase
         public string table_name;
         public string table;
 
+        public void SetConnection(ref MySqlConnection connection)
+        {
+            this.connection = connection;
+        }
         public void SetTableName(string table_name)
         {
             this.table_name = table_name;

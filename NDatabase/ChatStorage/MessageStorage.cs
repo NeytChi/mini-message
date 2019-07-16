@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Common.Logging;
 using Common.Chats;
@@ -23,7 +24,7 @@ namespace MiniMessanger.NDatabase.ChatStorage
                     "user_id int," +
                     "message_text varchar(500)," +
                     "message_viewed bool," +
-                    "created_at datetime," +
+                    "created_at timestamp," +
                     "PRIMARY KEY (message_id)" +
                 ");"
             );
@@ -37,7 +38,7 @@ namespace MiniMessanger.NDatabase.ChatStorage
                 commandSQL.Parameters.AddWithValue("@user_id", message.user_id);
                 commandSQL.Parameters.AddWithValue("@message_text", message.message_text);
                 commandSQL.Parameters.AddWithValue("@message_viewed", message.message_viewed);
-                commandSQL.Parameters.AddWithValue("@created_at", message.created_at);
+                commandSQL.Parameters.AddWithValue("@created_at", message.created_at.ToString("yyyy/MM/dd/ HH:mm:ss"));
                 s_locker.WaitOne();
                 commandSQL.ExecuteNonQuery();
                 message.message_id = (int)commandSQL.LastInsertedId;

@@ -20,7 +20,7 @@ namespace MiniMessanger.NDatabase.ChatStorage
                 "(" +
                     "chat_id int NOT NULL AUTO_INCREMENT, " +
                     "chat_token varchar(20), " +
-                    "created_at datetime, " +
+                    "created_at timestamp, " +
                     "PRIMARY KEY (chat_id) " +
                 ");"
             );
@@ -31,7 +31,7 @@ namespace MiniMessanger.NDatabase.ChatStorage
                 "VALUES (@chat_token, @created_at);", connection))
             {
                 commandSQL.Parameters.AddWithValue("@chat_token", chat.chat_token);
-                commandSQL.Parameters.AddWithValue("@created_at", chat.created_at);
+                commandSQL.Parameters.AddWithValue("@created_at", chat.created_at.ToString("yyyy/MM/dd/ HH:mm:ss"));
                 s_locker.WaitOne();
                 commandSQL.ExecuteNonQuery();
                 chat.chat_id = (int)commandSQL.LastInsertedId;
