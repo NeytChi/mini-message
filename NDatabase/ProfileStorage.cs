@@ -8,10 +8,9 @@ namespace Common.NDatabase.UserData
 {
     public class ProfileStorage : Storage
     {
-        public ProfileStorage(MySqlConnection connection, Semaphore s_locker)
+        public ProfileStorage(MySqlConnectionStringBuilder connectionstring)
         {
-            this.connection = connection;
-            this.s_locker = s_locker;
+            this.connectionstring = connectionstring;
             SetTableName("profiles");
             SetTable
             (
@@ -26,37 +25,41 @@ namespace Common.NDatabase.UserData
         }
         public void AddProfile(ref ProfileData profile)
         {
-            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO profiles(user_id, url_photo)" +
-                "VALUES (@user_id, @url_photo);", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                commandSQL.Parameters.AddWithValue("@user_id", profile.user_id);
-                commandSQL.Parameters.AddWithValue("@url_photo", profile.url_photo);
-                s_locker.WaitOne();
-                commandSQL.ExecuteNonQuery();
-                profile.profile_id = (int)commandSQL.LastInsertedId;
-                commandSQL.Dispose();
-                s_locker.Release();
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO profiles(user_id, url_photo)" +
+                "VALUES (@user_id, @url_photo);", connection))
+                {
+                    commandSQL.Parameters.AddWithValue("@user_id", profile.user_id);
+                    commandSQL.Parameters.AddWithValue("@url_photo", profile.url_photo);
+                    commandSQL.ExecuteNonQuery();
+                    profile.profile_id = (int)commandSQL.LastInsertedId;
+                    commandSQL.Dispose();
+                }
             }
             Logger.WriteLog("Add profile.user_id->" + profile.user_id + " to database.", LogLevel.Usual);
         }
         public bool SelectByUserId(int user_id, ref ProfileData profile)
         {
             bool answer = false;
-            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM profiles WHERE user_id=@user_id;", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                commandSQL.Parameters.AddWithValue("@user_id", user_id);
-                s_locker.WaitOne();
-                using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM profiles WHERE user_id=@user_id;", connection))
                 {
-                    if (readerMassive.Read())
+                    commandSQL.Parameters.AddWithValue("@user_id", user_id);
+                    using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
                     {
-                        profile.profile_id = readerMassive.GetInt32(0);
-                        profile.user_id = readerMassive.GetInt32(1);
-                        profile.url_photo = readerMassive.IsDBNull(2) ? null : readerMassive.GetString(2);
-                        answer = true;
+                        if (readerMassive.Read())
+                        {
+                            profile.profile_id = readerMassive.GetInt32(0);
+                            profile.user_id = readerMassive.GetInt32(1);
+                            profile.url_photo = readerMassive.IsDBNull(2) ? null : readerMassive.GetString(2);
+                            answer = true;
+                        }
                     }
                 }
-                s_locker.Release();
             }
             Logger.WriteLog("Select profile by user_id. profile.user_id->" + user_id + ". Success->" + answer, LogLevel.Usual);
             return answer;
@@ -64,31 +67,35 @@ namespace Common.NDatabase.UserData
         public bool DeleteProfile(int user_id)
         {
             bool success = false;
-            using (MySqlCommand commandSQL = new MySqlCommand("DELETE FROM profiles WHERE user_id=@user_id;", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                commandSQL.Parameters.AddWithValue("@user_id", user_id);
-                s_locker.WaitOne();
-                if (commandSQL.ExecuteNonQuery() > 0)
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("DELETE FROM profiles WHERE user_id=@user_id;", connection))
                 {
-                    success = true;
+                    commandSQL.Parameters.AddWithValue("@user_id", user_id);
+                    if (commandSQL.ExecuteNonQuery() > 0)
+                    {
+                        success = true;
+                    }
+                    commandSQL.Dispose();
                 }
-                commandSQL.Dispose();
-                s_locker.Release();
             }
             Logger.WriteLog("Delete profile.user_id->" + user_id + " from database. Success->" + success, LogLevel.Usual);
             return success;
         }
         public void UpdateUrlPhoto(int user_id, string url_photo)
         {
-            s_locker.WaitOne();
-            using (MySqlCommand commandSQL = new MySqlCommand("UPDATE profiles SET url_photo=@url_photo WHERE user_id=@user_id;", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                commandSQL.Parameters.AddWithValue("@user_id", user_id);
-                commandSQL.Parameters.AddWithValue("@url_photo", url_photo);
-                commandSQL.ExecuteNonQuery();
-                commandSQL.Dispose();
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("UPDATE profiles SET url_photo=@url_photo WHERE user_id=@user_id;", connection))
+                {
+                    commandSQL.Parameters.AddWithValue("@user_id", user_id);
+                    commandSQL.Parameters.AddWithValue("@url_photo", url_photo);
+                    commandSQL.ExecuteNonQuery();
+                    commandSQL.Dispose();
+                }
             }
-            s_locker.Release();
             Logger.WriteLog("Update profile url_photo.", LogLevel.Usual);
         }
     }

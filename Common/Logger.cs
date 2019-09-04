@@ -4,6 +4,7 @@ using System.Text;
 using Common.NDatabase;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Common.Logging
 {
@@ -13,7 +14,7 @@ namespace Common.Logging
     {
         public static bool stateLogging = true;
         private static string CurrentDirectory = Directory.GetCurrentDirectory();
-        private static object locker = new object();
+        private static Semaphore locker = new Semaphore(1,1);
         private static string PathLogsDirectory = "/files/logs/";
         private static string FileName = DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
         private static DateTime CurrentFileDate = DateTime.Now;
@@ -125,7 +126,7 @@ namespace Common.Logging
             }
         }
         /// <summary>
-        /// Write log info to txt file.
+        /// Write log info to txt file and database.
         /// </summary>
         /// <param name="loger">Loger.</param>
         private static void Write(ref Log loger)
@@ -137,11 +138,10 @@ namespace Common.Logging
                 + "; " + "User_comp.: " + loger.user_computer + "; " +
                 "Log: " + loger.log + "; Level: " + loger.level + ";" + "\r\n"
             );
-            lock (locker)
-            {
-                FileWriter.Write(array, 0, array.Length);
-                FileWriter.Flush();
-            }
+            locker.WaitOne();
+            FileWriter.Write(array, 0, array.Length);
+            FileWriter.Flush();
+            locker.Release();
             Database.log.AddLogs(ref loger);
         }
         private static string SetLevelLog(LogLevel level)

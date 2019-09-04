@@ -1,19 +1,16 @@
-﻿using System;
-using System.Threading;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 
 namespace Common.NDatabase
 {
     public abstract class Storage
     {
-        public MySqlConnection connection;
-        public Semaphore s_locker;
+        public MySqlConnectionStringBuilder connectionstring;
         public string table_name;
         public string table;
 
-        public void SetConnection(ref MySqlConnection connection)
+        public void SetConnection(ref MySqlConnectionStringBuilder connectionstring)
         {
-            this.connection = connection;
+            this.connectionstring = connectionstring;
         }
         public void SetTableName(string table_name)
         {

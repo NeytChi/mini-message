@@ -15,7 +15,6 @@ namespace Common.NDatabase
     {
         public static string defaultNameDB = "minimessanger";
         public static MySqlConnectionStringBuilder connectionstring = new MySqlConnectionStringBuilder();
-        public static MySqlConnection connection;
 
         #region database_functional
         public static UserStorage user;
@@ -39,31 +38,20 @@ namespace Common.NDatabase
                 CheckDatabaseExists();
             }
             GetJsonConfig();
-            connection = new MySqlConnection(connectionstring.ToString());
-            connection.Open();
             SetMainStorages();
             CheckingAllTables();
             Logger.WriteLog("Initilization database->" + defaultNameDB + " done.", LogLevel.Usual);
             Console.WriteLine("MySQL connected.");
         }
-        public static void ConnectNew()
-        {
-            connection = new MySqlConnection(connectionstring.ToString());
-            connection.Open();
-            foreach (Storage storage in storages)
-            {
-                storage.SetConnection(ref connection);
-            }
-        }
         private static void SetMainStorages()
         {
-            user = new UserStorage(connection, s_locker);
-            log = new LogStorage(connection, s_locker);
-            file = new FileStorage(connection, s_locker);
-            profile = new ProfileStorage(connection, s_locker);
-            participant = new ParticipantStorage(connection, s_locker);
-            chat = new ChatRoomStorage(connection, s_locker);
-            message = new MessageStorage(connection, s_locker);
+            user = new UserStorage(connectionstring);
+            log = new LogStorage(connectionstring);
+            file = new FileStorage(connectionstring);
+            profile = new ProfileStorage(connectionstring);
+            participant = new ParticipantStorage(connectionstring);
+            chat = new ChatRoomStorage(connectionstring);
+            message = new MessageStorage(connectionstring);
             storages.Add(user);
             storages.Add(log);
             storages.Add(file);
@@ -134,11 +122,15 @@ namespace Common.NDatabase
         {
             try
             {
-                using (MySqlCommand command = new MySqlCommand(sqlCreateCommand, connection))
+                using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
                 {
-                    command.ExecuteNonQuery();
-                    command.Dispose();
-                    return true;
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sqlCreateCommand, connection))
+                    {
+                        command.ExecuteNonQuery();
+                        command.Dispose();
+                        return true;
+                    }
                 }
             }
             catch (Exception e)
@@ -152,10 +144,14 @@ namespace Common.NDatabase
             for (int i = storages.Count - 1; 0 < i + 1; i--)
             {
                 string command = string.Format("DROP TABLE {0};", storages[i].table_name);
-                using (MySqlCommand commandSQL = new MySqlCommand(command, connection))
+                using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
                 {
-                    commandSQL.ExecuteNonQuery();
-                    commandSQL.Dispose();
+                    connection.Open();
+                    using (MySqlCommand commandSQL = new MySqlCommand(command, connection))
+                    {
+                        commandSQL.ExecuteNonQuery();
+                        commandSQL.Dispose();
+                    }
                 }
                 Console.WriteLine("Delete table->" + storages[i].table_name);
             }
@@ -180,28 +176,19 @@ namespace Common.NDatabase
                 connectionstring.Password = configJson["Password"].ToString();
                 defaultNameDB = configJson["Database"].ToString();
             }
-            if (connection != null)
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                if (connection.State == ConnectionState.Open)
+                connection.Open();
                 {
-                    connection.Close();
+                    using (MySqlCommand command = new MySqlCommand("CREATE DATABASE IF NOT EXISTS " + defaultNameDB + ";", connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
-            connection = new MySqlConnection(connectionstring.ToString());
-            connection.Open();
-            if (connection.State == ConnectionState.Open)
-            {
-                using (MySqlCommand command = new MySqlCommand("CREATE DATABASE IF NOT EXISTS " + defaultNameDB + ";", connection))
-                {
-                    command.ExecuteNonQuery();
-                    command.Dispose();
-                }
-            }
-            connection.Close(); 
         }
         public static Storage AddStorage(Storage storage)
         {
-            storage.connection = connection;
             if (!CheckTableExists(storage.table))
             {
                 Console.WriteLine("The table=" + storage.table + " didn't create.");

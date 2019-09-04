@@ -13,7 +13,7 @@ namespace Common
 {
     public class Server
     {
-        public bool request_view = true;
+        public bool request_view = false;
         public int port = 8020;
         public string ip = "127.0.0.1";
         public string domen = "(none)";
@@ -96,8 +96,8 @@ namespace Common
         {
             if (request_view)
             {
-                Debug.WriteLine("Request:");
-                Debug.WriteLine(request.data);
+                Console.WriteLine("Request:");
+                Console.WriteLine(request.data);
             }
             request.method = GetMethodRequest(ref request.data);
             if (request.method != null)
@@ -330,7 +330,6 @@ namespace Common
         {
             Logger.Dispose();
             socket.Close();
-            Database.connection.Close();
         }
     }
 }

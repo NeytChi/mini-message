@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Common.Chats;
 using Common.Routing;
 using Common.Logging;
@@ -13,7 +14,7 @@ using Common.NDatabase.UserData;
 using System.Collections.Generic;
 using Common.NDatabase.FileData;
 using MiniMessanger.Models.Chat;
-using System.Net;
+using System.Text;
 
 namespace Common.Functional.UserF
 {
@@ -107,7 +108,16 @@ namespace Common.Functional.UserF
                     {
                         user.user_password = null;
                         Database.user.UpdateLastLoginAt(user.user_id, (int)(DateTime.Now - unixed).TotalSeconds);
-                        request.ResponseJsonData(user);
+                        var respose = new
+                        {
+                            user_email = user.user_email,
+                            user_token = user.user_token,
+                            user_login = user.user_login,
+                            created_at = user.created_at,
+                            last_login_at = user.last_login_at,
+                            user_public_token = user.user_public_token
+                        };
+                        request.ResponseJsonData(respose);
                         Logger.WriteLog("Login user, user_id=" + user.user_id, LogLevel.Usual);
                         return;
                     }
@@ -127,7 +137,9 @@ namespace Common.Functional.UserF
         {
             string message = null;
             UserCache user = new UserCache();
-            if (Database.user.SelectUserByEmail(request.FormField("user_email"), ref user))
+            user.user_email = request.RequiredJsonField("user_email", JTokenType.String);
+            if (user.user_email == null) return;
+            if (Database.user.SelectUserByEmail(user.user_email, ref user))
             {
                 MailF.SendEmail(user.user_email, "Activate account", "Activate account url: <a href=http://" + Config.IP + ":" + Config.Port + "/v1.0/users/Activate/?hash=" + user.user_hash + ">Activation url!</a>");
                 request.ResponseJsonAnswer(true, "Send registration email to user. See your email to activate account by url.");
@@ -145,7 +157,8 @@ namespace Common.Functional.UserF
         {
             string message = null;
             UserCache user = new UserCache();
-            string user_token = request.FormField("user_token");
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
             if (Database.user.SelectUserByToken(user_token, ref user))
             {
                 user.user_token = Validator.GenerateHash(40);
@@ -163,7 +176,8 @@ namespace Common.Functional.UserF
         }
         public void RecoveryPassword(ref HttpRequest request)
         {
-            string user_email = request.FormField("user_email");
+            string user_email = request.RequiredJsonField("user_email", JTokenType.String);
+            if (user_email == null) return;
             UserCache user = new UserCache();
             if (Database.user.SelectUserByEmail(user_email, ref user))
             {
@@ -182,11 +196,14 @@ namespace Common.Functional.UserF
         public void CheckRecoveryCode(ref HttpRequest request)
         {
             string message = null;
-            int recovery_code = 0;
-            if (Int32.TryParse(request.FormField("recovery_code"), out recovery_code) && recovery_code != 0)
+            int recovery_code = -1;
+            recovery_code = request.RequiredJsonField("recovery_code", JTokenType.Integer);
+            if (recovery_code == -1) { return; }
+            else
             {
                 UserCache user = new UserCache();
-                user.user_email = request.FormField("user_email");
+                user.user_email = request.RequiredJsonField("user_email", JTokenType.String);
+                if (user.user_email == null) return;
                 if (Database.user.SelectUserByEmail(user.user_email, ref user))
                 {
                     if (user.recovery_code == recovery_code)
@@ -194,7 +211,7 @@ namespace Common.Functional.UserF
                         user.recovery_token = Validator.GenerateHash(40);
                         Database.user.UpdateRecoveryToken(user.user_id, user.recovery_token);
                         Database.user.UpdateRecoveryCode(user.user_id, 0);
-                        request.ResponseJsonData(user.recovery_token);
+                        request.ResponseJsonData(new { recovery_token = user.recovery_token } );
                         Logger.WriteLog("Check recovery code - successfully", LogLevel.Usual);
                         return;
                     }
@@ -202,19 +219,21 @@ namespace Common.Functional.UserF
                 }
                 else { message = "Can't find this user by user_email."; }
             }
-            else { message = "Server can't get recovery_code from request."; }
             request.ResponseJsonAnswer(false, message);
             Logger.WriteLog(message, LogLevel.Warning);
         }
         public void ChangePassword(ref HttpRequest request)
         {
             string message = null;
-            string recovery_token = request.FormField("recovery_token");
+            string recovery_token = request.RequiredJsonField("recovery_token", JTokenType.String);
+            if (recovery_token == null) return;
+            string user_password = request.RequiredJsonField("user_password", JTokenType.String);
+            if (user_password == null) return;
+            string user_confirm_password = request.RequiredJsonField("user_confirm_password", JTokenType.String);
+            if (user_confirm_password == null) return;
             UserCache user = new UserCache();
             if (Database.user.SelectUserByRecoveryToken(recovery_token, ref user))
             {
-                string user_password = request.FormField("user_password");
-                string user_confirm_password = request.FormField("user_confirm_password");
                 if (Validator.EqualsPasswords(ref user_password, ref user_confirm_password))
                 {
                     if (Validator.ValidatePassword(ref user_password, ref message))
@@ -224,6 +243,7 @@ namespace Common.Functional.UserF
                         Database.user.UpdateUserPassword(user.user_id, user.user_password);
                         Logger.WriteLog("Change user password, user_id=" + user.user_id, LogLevel.Usual);
                         request.ResponseJsonAnswer(true, "Change user password, user_id=" + user.user_id);
+                        return;
                     }
                     else { message = "Validation password - unsuccessfully. " + message; }
                 }
@@ -235,7 +255,8 @@ namespace Common.Functional.UserF
         }
         public void Delete(ref HttpRequest request)
         {
-            string user_token = request.FormField("user_token");
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
             UserCache user = new UserCache();
             if (Database.user.SelectUserByToken(user_token, ref user))
             {
@@ -272,7 +293,8 @@ namespace Common.Functional.UserF
         public void UpdateProfile(ref HttpRequest request)
         {
             string message = null;
-            string user_token = request.FormField("user_token");
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
             UserCache user = new UserCache();
             if (Database.user.SelectUserByToken(user_token, ref user))
             {
@@ -301,22 +323,32 @@ namespace Common.Functional.UserF
         public void GetUsersList(ref HttpRequest request)
         {
             string message = null;
-            string user_token = request.FormField("user_token");
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
             UserCache user = new UserCache();
             if (Database.user.SelectUserByToken(user_token, ref user))
             {
                 int page = 0;
                 Int32.TryParse(request.HeadParameter("page"), out page);
                 List<UserCache> users = Database.user.SelectUsers(user.user_id, page * 30, 30);
+                List<dynamic> data = new List<dynamic>();
                 for(int i = 0; i < users.Count; i++)
                 {
-                    UserCache cache = users[i];
                     ProfileData profile = new ProfileData();
-                    Database.profile.SelectByUserId(cache.user_id, ref profile);
-                    cache.profile = profile;
-                    users[i] = cache;
+                    Database.profile.SelectByUserId(users[i].user_id, ref profile);
+                    var respose = new
+                    {
+                        user_email = users[i].user_email,
+                        user_token = users[i].user_token,
+                        user_login = users[i].user_login,
+                        created_at = users[i].created_at,
+                        last_login_at = users[i].last_login_at,
+                        user_public_token = users[i].user_public_token,
+                        profile = profile
+                    };
+                    data.Add(respose);
                 }
-                request.ResponseJsonData(users);
+                request.ResponseJsonData(data);
                 Logger.WriteLog("Get users list.", LogLevel.Usual);
                 return;
             }
@@ -331,7 +363,8 @@ namespace Common.Functional.UserF
         public void SelectChats(ref HttpRequest request)
         {
             string message = null;
-            string user_token = request.FormField("user_token");
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
             UserCache user = new UserCache();
             if (Database.user.SelectUserByToken(user_token, ref user))
             {
@@ -360,12 +393,14 @@ namespace Common.Functional.UserF
         public void SelectMessages(ref HttpRequest request)
         {
             string message = null;
-            string user_token = request.FormField("user_token");
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
+            string chat_token = request.RequiredJsonField("chat_token", JTokenType.String);
+            if (chat_token == null) return;
             UserCache user = new UserCache();
             if (Database.user.SelectUserByToken(user_token, ref user))
             {
                 ChatRoom room = new ChatRoom();
-                string chat_token = request.FormField("chat_token");
                 if (Database.chat.SelectChatByToken(ref chat_token, ref room))
                 {
                     int page = 0;
@@ -391,52 +426,45 @@ namespace Common.Functional.UserF
         public void CreateChat(ref HttpRequest request)
         {
             string message = null;
-            string message_text = request.RequiredJsonField("message_text", JTokenType.String);
-            if (message_text == null) return;
-            message_text = WebUtility.UrlDecode(message_text);
-            if (!string.IsNullOrEmpty(message_text))
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
+            string opposide_public_token = request.RequiredJsonField("opposide_public_token", JTokenType.String);
+            if (opposide_public_token == null) return;
+            UserCache user = new UserCache();
+            if (Database.user.SelectUserByToken(user_token, ref user))
             {
-                string user_token = request.RequiredJsonField("user_token", JTokenType.String);
-                if (user_token == null) return;
-                UserCache user = new UserCache();
-                if (Database.user.SelectUserByToken(user_token, ref user))
+                ChatRoom room = new ChatRoom();
+                room.users = new List<ChatUser>();
+                UserCache interlocutor = new UserCache();
+                if (Database.user.SelectUserByPublicToken(opposide_public_token, ref interlocutor))
                 {
-                    ChatRoom room = new ChatRoom();
-                    room.users = new List<ChatUser>();
-                    string opposide_public_token = request.RequiredJsonField("opposide_public_token", JTokenType.String);
-                    if (opposide_public_token == null) return;
-                    UserCache interlocutor = new UserCache();
-                    if (Database.user.SelectUserByPublicToken(opposide_public_token, ref interlocutor))
+                    Participant participant = new Participant();
+                    if (!Database.participant.SelectByUserOpposideId(user.user_id, interlocutor.user_id, ref participant))
                     {
-                        Participant participant = new Participant();
-                        if (!Database.participant.SelectByUserOpposideId(user.user_id, interlocutor.user_id, ref participant))
-                        {
-                            room.chat_token = Validator.GenerateHash(20);
-                            room.created_at = DateTime.Now;
-                            Database.chat.AddChat(ref room);
-                            Participant user_participant = new Participant();
-                            user_participant.chat_id = room.chat_id;
-                            user_participant.user_id = user.user_id;
-                            user_participant.opposide_id = interlocutor.user_id;
-                            Database.participant.AddParticipant(ref user_participant);
-                            Participant opposide_participant = new Participant();
-                            opposide_participant.chat_id = room.chat_id;
-                            opposide_participant.user_id = interlocutor.user_id;
-                            opposide_participant.opposide_id = user.user_id;
-                            Database.participant.AddParticipant(ref opposide_participant);
-                            Logger.WriteLog("Create chat for user_id->" + user.user_id + " and opposide_id->" + interlocutor.user_id + ".", LogLevel.Usual);
-                        }
-                        else
-                        {
-                            Database.chat.SelectChatById(participant.chat_id, ref room);
-                            Logger.WriteLog("Select exist chat for user_id->" + user.user_id + " and opposide_id->" + interlocutor.user_id + ".", LogLevel.Usual);
-                        }
-                        request.ResponseJsonData(room);
-                        Logger.WriteLog("Create/Select chat chat_id->" + room.chat_id + ".", LogLevel.Usual);
-                        ChatServer.module.HandleMessage(ref message_text, room.chat_id, user.user_id);
-                    } else { message = "Can't define interlocutor by interlocutor_public_token from request's body."; }
-                } else { message = "No user with that user_token."; }
-            } else { message = "Can't get message_text from request."; }
+                        room.chat_token = Validator.GenerateHash(20);
+                        room.created_at = DateTime.Now;
+                        Database.chat.AddChat(ref room);
+                        Participant user_participant = new Participant();
+                        user_participant.chat_id = room.chat_id;
+                        user_participant.user_id = user.user_id;
+                        user_participant.opposide_id = interlocutor.user_id;
+                        Database.participant.AddParticipant(ref user_participant);
+                        Participant opposide_participant = new Participant();
+                        opposide_participant.chat_id = room.chat_id;
+                        opposide_participant.user_id = interlocutor.user_id;
+                        opposide_participant.opposide_id = user.user_id;
+                        Database.participant.AddParticipant(ref opposide_participant);
+                        Logger.WriteLog("Create chat for user_id->" + user.user_id + " and opposide_id->" + interlocutor.user_id + ".", LogLevel.Usual);
+                    }
+                    else
+                    {
+                        Database.chat.SelectChatById(participant.chat_id, ref room);
+                        Logger.WriteLog("Select exist chat for user_id->" + user.user_id + " and opposide_id->" + interlocutor.user_id + ".", LogLevel.Usual);
+                    }
+                    request.ResponseJsonData(room);
+                    Logger.WriteLog("Create/Select chat chat_id->" + room.chat_id + ".", LogLevel.Usual);
+                } else { message = "Can't define interlocutor by interlocutor_public_token from request's body."; }
+            } else { message = "No user with that user_token."; }
             request.ResponseJsonAnswer(false, message);
             Logger.WriteLog(message, LogLevel.Warning);
         }
@@ -449,6 +477,7 @@ namespace Common.Functional.UserF
             if (chat_token == null) return;
             string message_text = request.RequiredJsonField("message_text", JTokenType.String);
             if (message_text == null) return;
+            message_text = WebUtility.UrlDecode(message_text);
             UserCache user = new UserCache();
             if (!string.IsNullOrEmpty(message_text))
             {
@@ -465,8 +494,9 @@ namespace Common.Functional.UserF
                         message.created_at = DateTime.Now;
                         ChatServer.module.SendToChat(ref message, ref room.chat_id);
                         Database.message.AddMessage(ref message);
-                        request.ResponseJsonData(message);
+                        request.ResponseJsonUTF8Data(message);
                         Logger.WriteLog("Message was handled, message_id->" + message.message_id + " chat.chat_id->" + room.chat_id, LogLevel.Usual);
+                        return;
                     } else { error = "Server can't define chat by chat_token."; }
                 } else { error = "No user with that user_token."; }
             } else { error = "Message is empty. Server willn't upload this message."; }

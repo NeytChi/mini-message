@@ -75,7 +75,6 @@
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\UserCache.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="FileSystem\LoaderFile.cs" />
     <Compile Include="Functional\Chats\ChatModule.cs" />
     <Compile Include="Functional\Chats\ChatServer.cs" />
     <Compile Include="Models\ProfileData.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="Models\Chat\Participant.cs" />
     <Compile Include="NDatabase\ProfileStorage.cs" />
     <Compile Include="Models\Chat\ChatData.cs" />
+    <Compile Include="Common\LoaderFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

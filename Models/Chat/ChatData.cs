@@ -6,7 +6,7 @@ namespace MiniMessanger.Models.Chat
 {
     public struct ChatData
     {
-        public UserCache user;
+        public dynamic user;
         public ChatRoom chat;
         public Message last_message;
     }

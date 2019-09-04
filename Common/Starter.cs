@@ -33,7 +33,6 @@ namespace Common
                         break;
                     case "-c":
                         Database.DropTables();
-                        Database.connection.Close();
                         break;
                     case "-v":
                         ChatServer.module.request_view = true;

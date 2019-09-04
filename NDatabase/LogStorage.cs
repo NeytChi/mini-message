@@ -8,10 +8,9 @@ namespace Common.NDatabase.LogData
 {
     public class LogStorage : Storage
     {
-        public LogStorage(MySqlConnection connection, Semaphore s_locker)
+        public LogStorage(MySqlConnectionStringBuilder connectionstring)
         {
-            this.connection = connection;
-            this.s_locker = s_locker;
+            this.connectionstring = connectionstring;
             SetTableName("logs");
             SetTable
             (
@@ -33,8 +32,9 @@ namespace Common.NDatabase.LogData
         }
         public void AddLogs(ref Log log)
         {
-            try
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
+                connection.Open();
                 using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO logs( log, user_computer, seconds, minutes, hours, day, month, year, level) " +
                     "VALUES( @log, @user_computer, @seconds, @minutes, @hours, @day, @month, @year, @level);", connection))
                 {
@@ -47,47 +47,40 @@ namespace Common.NDatabase.LogData
                     commandSQL.Parameters.AddWithValue("@month", log.month);
                     commandSQL.Parameters.AddWithValue("@year", log.year);
                     commandSQL.Parameters.AddWithValue("@level", log.level);
-                    s_locker.WaitOne();
                     commandSQL.ExecuteNonQuery();
                     commandSQL.Dispose();
-                    s_locker.Release();
                 }
-            }
-            catch (Exception e)
-            {
-                s_locker.Release();
-                Database.ConnectNew();
-                Console.WriteLine(e.Message);
-                Logger.WriteLog(e.Message, LogLevel.Fatal);
             }
         }
         public List<Log> SelectLogs()
         {
             List<Log> logsMass = new List<Log>();
-            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM logs;", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                s_locker.WaitOne();
-                using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM logs;", connection))
                 {
-                    while (readerMassive.Read())
+                    using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
                     {
-                        Log log = new Log
+                        while (readerMassive.Read())
                         {
-                            log = readerMassive.GetString("log"),
-                            user_computer = readerMassive.GetString("user_computer"),
-                            seconds = readerMassive.GetInt16("seconds"),
-                            minutes = readerMassive.GetInt16("minutes"),
-                            hours = readerMassive.GetInt16("hours"),
-                            day = readerMassive.GetInt16("day"),
-                            month = readerMassive.GetInt16("month"),
-                            year = readerMassive.GetInt32("year"),
-                            level = readerMassive.GetString("level")
-                        };
-                        logsMass.Add(log);
+                            Log log = new Log
+                            {
+                                log = readerMassive.GetString("log"),
+                                user_computer = readerMassive.GetString("user_computer"),
+                                seconds = readerMassive.GetInt16("seconds"),
+                                minutes = readerMassive.GetInt16("minutes"),
+                                hours = readerMassive.GetInt16("hours"),
+                                day = readerMassive.GetInt16("day"),
+                                month = readerMassive.GetInt16("month"),
+                                year = readerMassive.GetInt32("year"),
+                                level = readerMassive.GetString("level")
+                            };
+                            logsMass.Add(log);
+                        }
+                        commandSQL.Dispose();
                     }
-                    commandSQL.Dispose();
                 }
-                s_locker.Release();
             }
             Logger.WriteLog("Select massive logs from database.", LogLevel.Usual);
             return logsMass;

@@ -9,10 +9,9 @@ namespace MiniMessanger.NDatabase.ChatStorage
 {
     public class ChatRoomStorage : Storage
     {
-        public ChatRoomStorage(MySqlConnection connection, Semaphore s_locker)
+        public ChatRoomStorage(MySqlConnectionStringBuilder connectionstring)
         {
-            this.connection = connection;
-            this.s_locker = s_locker;
+            this.connectionstring = connectionstring;
             SetTableName("chatroom");
             SetTable
             (
@@ -27,37 +26,40 @@ namespace MiniMessanger.NDatabase.ChatStorage
         }
         public void AddChat(ref ChatRoom chat)
         {
-            using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO chatroom(chat_token, created_at)" +
-                "VALUES (@chat_token, @created_at);", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                commandSQL.Parameters.AddWithValue("@chat_token", chat.chat_token);
-                commandSQL.Parameters.AddWithValue("@created_at", chat.created_at.ToString("yyyy/MM/dd/ HH:mm:ss"));
-                s_locker.WaitOne();
-                commandSQL.ExecuteNonQuery();
-                chat.chat_id = (int)commandSQL.LastInsertedId;
-                commandSQL.Dispose();
-                s_locker.Release();
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("INSERT INTO chatroom(chat_token, created_at)" +
+                "VALUES (@chat_token, @created_at);", connection))
+                {
+                    commandSQL.Parameters.AddWithValue("@chat_token", chat.chat_token);
+                    commandSQL.Parameters.AddWithValue("@created_at", chat.created_at.ToString("yyyy/MM/dd/ HH:mm:ss"));
+                    commandSQL.ExecuteNonQuery();
+                    chat.chat_id = (int)commandSQL.LastInsertedId;
+                }
             }
             Logger.WriteLog("Add chat.chat_id->" + chat.chat_id + " to database.", LogLevel.Usual);
         }
         public bool SelectChatById(int chat_id, ref ChatRoom room)
         {
             bool success = false;
-            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM chatroom WHERE chat_id=@chat_id;", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                commandSQL.Parameters.AddWithValue("@chat_id", chat_id);
-                s_locker.WaitOne();
-                using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM chatroom WHERE chat_id=@chat_id;", connection))
                 {
-                    if (readerMassive.Read())
+                    commandSQL.Parameters.AddWithValue("@chat_id", chat_id);
+                    using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
                     {
-                        room.chat_id = readerMassive.GetInt32(0);
-                        room.chat_token = readerMassive.GetString(1);
-                        room.created_at = readerMassive.GetDateTime(2);
-                        success = true;
+                        if (readerMassive.Read())
+                        {
+                            room.chat_id = readerMassive.GetInt32(0);
+                            room.chat_token = readerMassive.GetString(1);
+                            room.created_at = readerMassive.GetDateTime(2);
+                            success = true;
+                        }
                     }
                 }
-                s_locker.Release();
             }
             Logger.WriteLog("Select chat by chat_id. Success->" + success, LogLevel.Usual);
             return success;
@@ -65,21 +67,23 @@ namespace MiniMessanger.NDatabase.ChatStorage
         public bool SelectChatByToken(ref string chat_token, ref ChatRoom room)
         {
             bool success = false;
-            using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM chatroom WHERE chat_token=@chat_token;", connection))
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
-                commandSQL.Parameters.AddWithValue("@chat_token", chat_token);
-                s_locker.WaitOne();
-                using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM chatroom WHERE chat_token=@chat_token;", connection))
                 {
-                    if (readerMassive.Read())
+                    commandSQL.Parameters.AddWithValue("@chat_token", chat_token);
+                    using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
                     {
-                        room.chat_id = readerMassive.GetInt32(0);
-                        room.chat_token = readerMassive.GetString(1);
-                        room.created_at = readerMassive.GetDateTime(2);
-                        success = true;
+                        if (readerMassive.Read())
+                        {
+                            room.chat_id = readerMassive.GetInt32(0);
+                            room.chat_token = readerMassive.GetString(1);
+                            room.created_at = readerMassive.GetDateTime(2);
+                            success = true;
+                        }
                     }
                 }
-                s_locker.Release();
             }
             Logger.WriteLog("Select chat by chat_token. Success->" + success, LogLevel.Usual);
             return success;
