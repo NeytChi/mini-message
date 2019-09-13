@@ -44,6 +44,10 @@ namespace Common.Functional.UserF
             Router.AddRoute(new Route("PUT", "users/SelectMessages", SelectMessages));
             Router.AddRoute(new Route("POST", "users/CreateChat", CreateChat));
             Router.AddRoute(new Route("POST", "users/SendMessage", SendMessage));
+            Router.AddRoute(new Route("POST", "users/BlockUser", BlockUser));
+            Router.AddRoute(new Route("PUT", "users/GetBlockedUsers", GetBlockedUsers));
+            Router.AddRoute(new Route("POST", "users/UnblockUser", UnblockUser));
+            Router.AddRoute(new Route("POST", "users/ComplaintContent", ComplaintContent));
         }
         /// <summary>
         /// Registration user by specified request.
@@ -332,21 +336,19 @@ namespace Common.Functional.UserF
                 Int32.TryParse(request.HeadParameter("page"), out page);
                 List<UserCache> users = Database.user.SelectUsers(user.user_id, page * 30, 30);
                 List<dynamic> data = new List<dynamic>();
-                for(int i = 0; i < users.Count; i++)
+                Database.blocked.GetNonBlockedUsers(user.user_id, ref users);
+                foreach(UserCache publicUser in users)
                 {
-                    ProfileData profile = new ProfileData();
-                    Database.profile.SelectByUserId(users[i].user_id, ref profile);
-                    var respose = new
+                    var userData = new 
                     {
-                        user_email = users[i].user_email,
-                        user_token = users[i].user_token,
-                        user_login = users[i].user_login,
-                        created_at = users[i].created_at,
-                        last_login_at = users[i].last_login_at,
-                        user_public_token = users[i].user_public_token,
-                        profile = profile
+                        user_id = publicUser.user_id,
+                        user_email = publicUser.user_email,
+                        user_login = publicUser.user_login,
+                        created_at = publicUser.created_at,
+                        last_login_at = publicUser.last_login_at,
+                        user_public_token = publicUser.user_public_token
                     };
-                    data.Add(respose);
+                    data.Add(userData);
                 }
                 request.ResponseJsonData(data);
                 Logger.WriteLog("Get users list.", LogLevel.Usual);
@@ -372,6 +374,7 @@ namespace Common.Functional.UserF
                 Int32.TryParse(request.HeadParameter("page"), out page);
                 List<ChatData> chats = new List<ChatData>();
                 List<Participant> participants = Database.participant.SelectParticipantByUserId(user.user_id);
+                Database.blocked.GetNonBlockedUsers(user.user_id, ref participants);
                 foreach (Participant participant in participants)
                 {
                     ChatData data = new ChatData();
@@ -382,7 +385,7 @@ namespace Common.Functional.UserF
                     data.last_message = Database.message.SelectLastMessage(room.chat_id);
                     chats.Add(data);
                 }
-                request.ResponseJsonData(chats);
+                request.ResponseJsonUTF8Data(chats);
                 Logger.WriteLog("Get list of chats.", LogLevel.Usual);
                 return;
             }
@@ -502,6 +505,147 @@ namespace Common.Functional.UserF
             } else { error = "Message is empty. Server willn't upload this message."; }
             request.ResponseJsonAnswer(false, error);
             Logger.WriteLog(error, LogLevel.Warning);
+        }
+        public void BlockUser(ref HttpRequest request)
+        {
+            string message = null;
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
+            string opposide_public_token = request.RequiredJsonField("opposide_public_token", JTokenType.String);
+            if (opposide_public_token == null) return;
+            string blocked_reason = request.RequiredJsonField("blocked_reason", JTokenType.String);
+            if (blocked_reason == null) return;
+            blocked_reason = WebUtility.UrlDecode(blocked_reason);
+            UserCache user = new UserCache();
+            if (Database.user.SelectUserByToken(user_token, ref user))
+            {
+                UserCache interlocutor = new UserCache();
+                if (Database.user.SelectUserByPublicToken(opposide_public_token, ref interlocutor))
+                {
+                    if (blocked_reason.Length < 100)
+                    {
+                        if (!Database.blocked.CheckBlockedUser(user.user_id, interlocutor.user_id))
+                        {
+                            BlockedUser blockedUser = new BlockedUser();
+                            blockedUser.user_id = user.user_id;
+                            blockedUser.blocked_user_id = interlocutor.user_id;
+                            blockedUser.blocked_reason = blocked_reason;
+                            blockedUser.blocked_deleted = false;
+                            Database.blocked.Add(ref blockedUser);
+                            request.ResponseJsonAnswer(true, "Block user - successed.");
+                            Logger.WriteLog("Block user; user->user_id->" + user.user_id + ".", LogLevel.Usual);
+                            return;
+                        }
+                        else { message = "User blocked current user."; }
+                    }
+                    else { message = "Reason message can't be longer than 100 characters."; }
+                }
+                else { message = "No user with that opposide_public_token."; }
+            }
+            else { message = "No user with that user_token."; }
+            request.ResponseJsonAnswer(false, message);
+            Logger.WriteLog(message, LogLevel.Warning);
+        }
+        public void GetBlockedUsers(ref HttpRequest request)
+        {
+            string message = null;
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
+            UserCache user = new UserCache();
+            if (Database.user.SelectUserByToken(user_token, ref user))
+            {
+                List<dynamic> blockedUsers = Database.blocked.SelectBlockedUsers(user.user_id);
+                request.ResponseJsonUTF8Data(blockedUsers);
+                Logger.WriteLog("Block user; user->user_id->" + user.user_id + ".", LogLevel.Usual);
+                return;
+            }
+            else { message = "No user with that user_token."; }
+            request.ResponseJsonAnswer(false, message);
+            Logger.WriteLog(message, LogLevel.Warning);
+        }
+        public void UnblockUser(ref HttpRequest request)
+        {
+            string message = null;
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
+            string opposide_public_token = request.RequiredJsonField("opposide_public_token", JTokenType.String);
+            if (opposide_public_token == null) return;
+            UserCache user = new UserCache();
+            if (Database.user.SelectUserByToken(user_token, ref user))
+            {
+                UserCache interlocutor = new UserCache();
+                if (Database.user.SelectUserByPublicToken(opposide_public_token, ref interlocutor))
+                {
+                    if (Database.blocked.CheckBlockedUser(user.user_id, interlocutor.user_id))
+                    {
+                        Database.blocked.DeleteBlockedUser(user.user_id, interlocutor.user_id);
+                        Logger.WriteLog("Delete blocked user; user->user_id->" + user.user_id + ".", LogLevel.Usual);
+                        request.ResponseJsonAnswer(true, "Unblock user - successed.");
+                        return;
+                    }
+                    else { message = "User didn't block current user; user->user_id->" + user.user_id + "."; }
+                }
+                else { message = "No user with that opposide_public_token; user->user_id->" + user.user_id + "."; }
+            }
+            else { message = "No user with that user_token."; }
+            request.ResponseJsonAnswer(false, message);
+            Logger.WriteLog(message, LogLevel.Warning);
+        }
+        public void ComplaintContent(ref HttpRequest request)
+        {
+            string message_return = null;
+            string user_token = request.RequiredJsonField("user_token", JTokenType.String);
+            if (user_token == null) return;
+            long message_id = request.RequiredJsonField("message_id", JTokenType.Integer);
+            if (message_id == -1) return;
+            string complaint = request.RequiredJsonField("complaint", JTokenType.String);
+            if (complaint == null) return;
+            complaint = WebUtility.UrlDecode(complaint);
+            UserCache user = new UserCache();
+            if (Database.user.SelectUserByToken(user_token, ref user))
+            {
+                Message message = new Message();
+                if (Database.message.SelectMessage(message_id, ref message))
+                {
+                    if (complaint.Length < 100)
+                    {
+                        if (message.user_id != user.user_id)
+                        {
+                            UserCache interlocutor = new UserCache();
+                            if (Database.user.SelectUserById(message.user_id, ref interlocutor))
+                            {
+                                if (!Database.blocked.CheckBlockedUser(user.user_id, interlocutor.user_id))
+                                {
+                                    BlockedUser blockedUser = new BlockedUser();
+                                    blockedUser.user_id = user.user_id;
+                                    blockedUser.blocked_user_id = interlocutor.user_id;
+                                    blockedUser.blocked_reason = complaint;
+                                    blockedUser.blocked_deleted = false;
+                                    Database.blocked.Add(ref blockedUser);
+                                    Complaint complaintUser = new Complaint();
+                                    complaintUser.user_id = user.user_id;
+                                    complaintUser.blocked_id = blockedUser.blocked_id;
+                                    complaintUser.message_id = message.message_id;
+                                    complaintUser.complaint = complaint;
+                                    complaintUser.created_at = DateTime.Now;
+                                    Database.complaints.Add(ref complaintUser);
+                                    request.ResponseJsonAnswer(true, "Complain content - successed.");
+                                    Logger.WriteLog("Create complaint; user->user_id->" + user.user_id + ".", LogLevel.Usual);
+                                    return;
+                                }
+                                else { message_return = "User blocked current user."; }
+                            }
+                            else { message_return = "Server can't define user."; }
+                        }
+                        else { message_return = "User can't complain on himself."; }
+                    }
+                    else { message_return = "Complaint message can't be longer than 100 characters."; }
+                }
+                else { message_return = "Unknow message_id. Server can't define message."; }
+            }
+            else { message_return = "No user with that user_token."; }
+            request.ResponseJsonAnswer(false, message_return);
+            Logger.WriteLog(message_return, LogLevel.Warning);
         }
     }
 }

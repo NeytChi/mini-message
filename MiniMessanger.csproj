@@ -88,9 +88,15 @@
     <Compile Include="NDatabase\ProfileStorage.cs" />
     <Compile Include="Models\Chat\ChatData.cs" />
     <Compile Include="Common\LoaderFile.cs" />
+    <Compile Include="Models\Chat\BlockedUser.cs" />
+    <Compile Include="NDatabase\ChatStorage\BlockedUserStorage.cs" />
+    <Compile Include="Models\Chat\Complaint.cs" />
+    <Compile Include="NDatabase\ChatStorage\ComplaintsStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="bin\Debug\conf" />
+    <None Include="bin\Debug\database.conf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Chat\" />

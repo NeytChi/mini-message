@@ -80,7 +80,7 @@ namespace Common.NDatabase.UserData
                             user.user_token = readerMassive.GetString("user_token");
                             user.last_login_at = readerMassive.GetInt32("last_login_at");
                             user.recovery_code = readerMassive.GetInt32("recovery_code");
-                            user.recovery_token = readerMassive.GetString("recovery_token");
+                            user.recovery_token = readerMassive.IsDBNull(11) ? null : readerMassive.GetString("recovery_token");
                             user.user_public_token = readerMassive.GetString("user_public_token");
                             Logger.WriteLog("Select user by user_id. user.user_id->" + user_id, LogLevel.Usual);
                             answer = true;
@@ -165,7 +165,7 @@ namespace Common.NDatabase.UserData
             using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
             {
                 connection.Open();
-                using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM users WHERE user_id<>@user_id ORDER BY user_id DESC LIMIT @since, @count;", connection))
+                using (MySqlCommand commandSQL = new MySqlCommand("SELECT user_id, user_email, user_login, created_at, last_login_at, user_public_token FROM users WHERE user_id<>@user_id ORDER BY user_id DESC LIMIT @since, @count;", connection))
                 {
                     commandSQL.Parameters.AddWithValue("@user_id", user_id);
                     commandSQL.Parameters.AddWithValue("@since", since);
@@ -174,13 +174,15 @@ namespace Common.NDatabase.UserData
                     {
                         while (readerMassive.Read())
                         {
-                            UserCache user = new UserCache();
-                            user.user_id = readerMassive.GetInt32("user_id");
-                            user.user_email = readerMassive.GetString("user_email");
-                            user.user_login = readerMassive.GetString("user_login");
-                            user.created_at = readerMassive.GetInt32("created_at");
-                            user.last_login_at = readerMassive.GetInt32("last_login_at");
-                            user.user_public_token = readerMassive.GetString("user_public_token");
+                            UserCache user = new UserCache
+                            {
+                                user_id = readerMassive.GetInt32("user_id"),
+                                user_email = readerMassive.GetString("user_email"),
+                                user_login = readerMassive.GetString("user_login"),
+                                created_at = readerMassive.GetInt32("created_at"),
+                                last_login_at = readerMassive.GetInt32("last_login_at"),
+                                user_public_token = readerMassive.GetString("user_public_token")
+                            };
                             users.Add(user);
                         }
                     }
@@ -238,31 +240,27 @@ namespace Common.NDatabase.UserData
         private bool GetUser(MySqlCommand commandSQL, ref UserCache user)
         {
             bool success = false;
-            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
+            MySqlDataReader readerMassive = commandSQL.ExecuteReader();
             {
-                connection.Open();
-                using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                if (readerMassive.Read())
                 {
-                    if (readerMassive.Read())
-                    {
-                        user.user_id = readerMassive.GetInt32("user_id");
-                        user.user_email = readerMassive.GetString("user_email");
-                        user.user_login = readerMassive.GetString("user_login");
-                        user.user_password = readerMassive.GetString("user_password");
-                        user.created_at = readerMassive.GetInt32("created_at");
-                        user.user_hash = readerMassive.GetString("user_hash");
-                        user.activate = readerMassive.GetInt16("activate");
-                        user.user_token = readerMassive.GetString("user_token");
-                        user.last_login_at = readerMassive.GetInt32("last_login_at");
-                        user.recovery_code = readerMassive.GetInt32("recovery_code");
-                        user.recovery_token = readerMassive.IsDBNull(11) ? null : readerMassive.GetString("recovery_token");
-                        user.user_public_token = readerMassive.GetString("user_public_token");
-                        success = true;
-                    }
-                    else
-                    {
-                        success = false;
-                    }
+                    user.user_id = readerMassive.GetInt32("user_id");
+                    user.user_email = readerMassive.GetString("user_email");
+                    user.user_login = readerMassive.GetString("user_login");
+                    user.user_password = readerMassive.GetString("user_password");
+                    user.created_at = readerMassive.GetInt32("created_at");
+                    user.user_hash = readerMassive.GetString("user_hash");
+                    user.activate = readerMassive.GetInt16("activate");
+                    user.user_token = readerMassive.GetString("user_token");
+                    user.last_login_at = readerMassive.GetInt32("last_login_at");
+                    user.recovery_code = readerMassive.GetInt32("recovery_code");
+                    user.recovery_token = readerMassive.IsDBNull(11) ? null : readerMassive.GetString("recovery_token");
+                    user.user_public_token = readerMassive.GetString("user_public_token");
+                    success = true;
+                }
+                else
+                {
+                    success = false;
                 }
             }
             Logger.WriteLog("Get user from database, success->" + success, LogLevel.Usual);

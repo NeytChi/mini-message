@@ -21,7 +21,7 @@ namespace MiniMessanger.NDatabase.ChatStorage
                     "message_id bigint NOT NULL AUTO_INCREMENT," +
                     "chat_id int," +
                     "user_id int," +
-                    "message_text varchar(500)," +
+                    "message_text varchar(500)  CHARACTER SET utf8 COLLATE utf8_general_ci," +
                     "message_viewed bool," +
                     "created_at timestamp," +
                     "PRIMARY KEY (message_id)" +
@@ -103,6 +103,33 @@ namespace MiniMessanger.NDatabase.ChatStorage
             }
             Logger.WriteLog("Select last message by chat_id->" + chat_id + ".", LogLevel.Usual);
             return message;
+        }
+        public bool SelectMessage(long message_id, ref Message message)
+        {
+            bool success = false;
+            using (MySqlConnection connection = new MySqlConnection(connectionstring.ToString()))
+            {
+                connection.Open();
+                using (MySqlCommand commandSQL = new MySqlCommand("SELECT * FROM messages WHERE message_id=@message_id;", connection))
+                {
+                    commandSQL.Parameters.AddWithValue("@message_id", message_id);
+                    using (MySqlDataReader readerMassive = commandSQL.ExecuteReader())
+                    {
+                        if (readerMassive.Read())
+                        {
+                            success = true;
+                            message.message_id = readerMassive.GetInt64(0);
+                            message.chat_id = readerMassive.GetInt64(1);
+                            message.user_id = readerMassive.GetInt32(2);
+                            message.message_text = readerMassive.GetString(3);
+                            message.message_viewed = readerMassive.GetBoolean(4);
+                            message.created_at = readerMassive.GetDateTime(5);
+                        }
+                    }
+                }
+            }
+            Logger.WriteLog("Select message by message_id->" + message_id + "; success->" + success + ".", LogLevel.Usual);
+            return success;
         }
         public void UpdateMessages(int chat_id, bool message_viewed)
         {
