@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Админ\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Админ\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_.19.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Админ\Documents\GitHub\mini-message" t="IncludeRecursive">
+      <e p="appsettings.Development.json" t="Include" />
+      <e p="appsettings.json" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="Controllers" t="Include">
+        <e p="UsersController.cs" t="Include" />
+      </e>
+      <e p="Dtos" t="Include">
+        <e p="Chating" t="Include">
+          <e p="BlockedUserDto.cs" t="Include" />
+          <e p="ChatDataDto.cs" t="Include" />
+          <e p="ChatRoomDto.cs" t="Include" />
+          <e p="ChatUserDto.cs" t="Include" />
+          <e p="ComplaintDto.cs" t="Include" />
+          <e p="MessageDto.cs" t="Include" />
+          <e p="ParticipantDto.cs" t="Include" />
+        </e>
+        <e p="DataResponse.cs" t="Include" />
+        <e p="FileDto.cs" t="Include" />
+        <e p="MessageResponse.cs" t="Include" />
+        <e p="ProfileDto.cs" t="Include" />
+        <e p="UserDto.cs" t="Include" />
+      </e>
+      <e p="mini-message.csproj" t="IncludeRecursive" />
+      <e p="Models" t="Include">
+        <e p="BlockedUser.cs" t="Include" />
+        <e p="ChatRoom.cs" t="Include" />
+        <e p="Complaint.cs" t="Include" />
+        <e p="Message.cs" t="Include" />
+        <e p="Participant.cs" t="Include" />
+        <e p="Profile.cs" t="Include" />
+        <e p="UploadFile.cs" t="Include" />
+        <e p="User.cs" t="Include" />
+      </e>
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp3.1" t="Include">
+            <e p="mini-message.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="OldTrash" t="Include">
+        <e p="bin" t="Include">
+          <e p="Debug" t="Include">
+            <e p="BouncyCastle.Crypto.dll" t="Include" />
+            <e p="conf" t="Include" />
+            <e p="database.conf" t="Include" />
+            <e p="files" t="Include">
+              <e p="logs" t="Include">
+                <e p="10-7-2019" t="Include" />
+                <e p="11-7-2019" t="Include" />
+                <e p="13-9-2019" t="Include" />
+                <e p="16-7-2019" t="Include" />
+                <e p="20-6-2019" t="Include" />
+                <e p="21-6-2019" t="Include" />
+                <e p="24-6-2019" t="Include" />
+                <e p="25-6-2019" t="Include" />
+                <e p="26-6-2019" t="Include" />
+                <e p="27-6-2019" t="Include" />
+                <e p="31-7-2019" t="Include" />
+                <e p="4-8-2019" t="Include" />
+                <e p="4-9-2019" t="Include" />
+                <e p="5-8-2019" t="Include" />
+              </e>
+            </e>
+            <e p="Google.Protobuf.dll" t="Include" />
+            <e p="Google.Protobuf.xml" t="Include" />
+            <e p="MiniMessanger.exe" t="Include" />
+            <e p="MiniMessanger.pdb" t="Include" />
+            <e p="MySql.Data.dll" t="Include" />
+            <e p="MySql.Data.xml" t="Include" />
+            <e p="Newtonsoft.Json.dll" t="Include" />
+            <e p="Newtonsoft.Json.xml" t="Include" />
+            <e p="ProfilePhoto" t="Include">
+              <e p="24-6-2019" t="Include">
+                <e p="862374653" t="Include" />
+              </e>
+              <e p="26-6-2019" t="Include">
+                <e p="1115164864" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Release" t="Include">
+            <e p="BouncyCastle.Crypto.dll" t="Include" />
+            <e p="conf" t="Include" />
+            <e p="database.conf" t="Include" />
+            <e p="files" t="Include">
+              <e p="logs" t="Include">
+                <e p="13-9-2019" t="Include" />
+                <e p="16-7-2019" t="Include" />
+                <e p="20-6-2019" t="Include" />
+                <e p="21-6-2019" t="Include" />
+                <e p="24-6-2019" t="Include" />
+                <e p="25-6-2019" t="Include" />
+                <e p="26-6-2019" t="Include" />
+                <e p="27-6-2019" t="Include" />
+                <e p="4-8-2019" t="Include" />
+                <e p="4-9-2019" t="Include" />
+              </e>
+            </e>
+            <e p="Google.Protobuf.dll" t="Include" />
+            <e p="Google.Protobuf.xml" t="Include" />
+            <e p="minimessanger" t="Include">
+              <e p="conf" t="Include" />
+              <e p="database.conf" t="Include" />
+              <e p="mm" t="Include" />
+              <e p="mm.service" t="Include" />
+            </e>
+            <e p="MiniMessanger.exe" t="Include" />
+            <e p="mm" t="Include" />
+            <e p="MySql.Data.dll" t="Include" />
+            <e p="MySql.Data.xml" t="Include" />
+            <e p="Newtonsoft.Json.dll" t="Include" />
+            <e p="Newtonsoft.Json.xml" t="Include" />
+          </e>
+        </e>
+        <e p="Common" t="Include">
+          <e p="Config.cs" t="Include" />
+          <e p="HTTPHandler.cs" t="Include" />
+          <e p="HttpRequest.cs" t="Include" />
+          <e p="LoaderFile.cs" t="Include" />
+          <e p="Router.cs" t="Include" />
+          <e p="Server.cs" t="Include" />
+          <e p="Starter.cs" t="Include" />
+        </e>
+        <e p="Controllers" t="Include">
+          <e p="UserController.cs" t="Include" />
+        </e>
+        <e p="Functional" t="Include">
+          <e p="Chats" t="Include">
+            <e p="ChatModule.cs" t="Include" />
+            <e p="ChatServer.cs" t="Include" />
+          </e>
+          <e p="MailF.cs" t="Include" />
+          <e p="Validator.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="Chat" t="Include">
+            <e p="BlockedUser.cs" t="Include" />
+            <e p="ChatData.cs" t="Include" />
+            <e p="ChatRoom.cs" t="Include" />
+            <e p="ChatUser.cs" t="Include" />
+            <e p="Complaint.cs" t="Include" />
+            <e p="Message.cs" t="Include" />
+            <e p="Participant.cs" t="Include" />
+          </e>
+          <e p="FileD.cs" t="Include" />
+          <e p="JsonData.cs" t="Include" />
+          <e p="JsonMessage.cs" t="Include" />
+          <e p="Log.cs" t="Include" />
+          <e p="ProfileData.cs" t="Include" />
+          <e p="UserCache.cs" t="Include" />
+        </e>
+        <e p="NDatabase" t="Include">
+          <e p="ChatStorage" t="Include">
+            <e p="BlockedUserStorage.cs" t="Include" />
+            <e p="ChatRoomStorage.cs" t="Include" />
+            <e p="ComplaintsStorage.cs" t="Include" />
+            <e p="MessageStorage.cs" t="Include" />
+            <e p="ParticipantStorage.cs" t="Include" />
+          </e>
+          <e p="DataBase.cs" t="Include" />
+          <e p="FileStorage.cs" t="Include" />
+          <e p="LogStorage.cs" t="Include" />
+          <e p="ProfileStorage.cs" t="Include" />
+          <e p="Storage.cs" t="Include" />
+          <e p="UserStorage.cs" t="Include" />
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Program.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="launchSettings.json" t="Include" />
+      </e>
+      <e p="Startup.cs" t="Include" />
+    </e>
+  </component>
+</project>

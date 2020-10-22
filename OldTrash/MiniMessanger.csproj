@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{1220C739-F4D8-4342-BDC6-9825D534939C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MiniMessanger</RootNamespace>
+    <AssemblyName>MiniMessanger</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.8.0.16\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Common\Config.cs" />
+    <Compile Include="Common\HTTPHandler.cs" />
+    <Compile Include="Common\HttpRequest.cs" />
+    <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\Router.cs" />
+    <Compile Include="Common\Server.cs" />
+    <Compile Include="Common\Starter.cs" />
+    <Compile Include="NDatabase\DataBase.cs" />
+    <Compile Include="NDatabase\FileStorage.cs" />
+    <Compile Include="NDatabase\LogStorage.cs" />
+    <Compile Include="NDatabase\Storage.cs" />
+    <Compile Include="NDatabase\UserStorage.cs" />
+    <Compile Include="Functional\MailF.cs" />
+    <Compile Include="Functional\Validator.cs" />
+    <Compile Include="Models\FileD.cs" />
+    <Compile Include="Models\JsonData.cs" />
+    <Compile Include="Models\JsonMessage.cs" />
+    <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\UserCache.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Functional\Chats\ChatModule.cs" />
+    <Compile Include="Functional\Chats\ChatServer.cs" />
+    <Compile Include="Models\ProfileData.cs" />
+    <Compile Include="Models\Chat\Message.cs" />
+    <Compile Include="Models\Chat\ChatUser.cs" />
+    <Compile Include="Models\Chat\ChatRoom.cs" />
+    <Compile Include="NDatabase\ChatStorage\MessageStorage.cs" />
+    <Compile Include="NDatabase\ChatStorage\ChatRoomStorage.cs" />
+    <Compile Include="NDatabase\ChatStorage\ParticipantStorage.cs" />
+    <Compile Include="Models\Chat\Participant.cs" />
+    <Compile Include="NDatabase\ProfileStorage.cs" />
+    <Compile Include="Models\Chat\ChatData.cs" />
+    <Compile Include="Common\LoaderFile.cs" />
+    <Compile Include="Models\Chat\BlockedUser.cs" />
+    <Compile Include="NDatabase\ChatStorage\BlockedUserStorage.cs" />
+    <Compile Include="Models\Chat\Complaint.cs" />
+    <Compile Include="NDatabase\ChatStorage\ComplaintsStorage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="bin\Debug\conf" />
+    <None Include="bin\Debug\database.conf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Chat\" />
+    <Folder Include="NDatabase\ChatStorage\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
