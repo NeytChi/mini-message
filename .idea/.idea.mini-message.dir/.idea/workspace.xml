@@ -24,118 +24,166 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea25bfe2-1e1c-4bb0-936e-1c8f52bb8c65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Models/BlockedUser.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/ChatRoom.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/Complaint.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/Message.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/Participant.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/Profile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/UploadFile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Config.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/HTTPHandler.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/HttpRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/LoaderFile.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Logger.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Router.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Server.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Starter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/UserController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Functional/Chats/ChatModule.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Functional/Chats/ChatServer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Functional/MailF.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Functional/Validator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniMessanger.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Chat/BlockedUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/Chating/BlockedUserDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Chat/ChatData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/Chating/ChatDataDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Chat/ChatRoom.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/Chating/ChatRoomDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Chat/ChatUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/Chating/ChatUserDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Chat/Complaint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/Chating/ComplaintDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Chat/Message.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/Chating/MessageDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Chat/Participant.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/Chating/ParticipantDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/FileD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/FileDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/JsonData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/DataResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/JsonMessage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/MessageResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Log.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/ProfileData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/ProfileDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/UserCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dtos/UserDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/ChatStorage/BlockedUserStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/ChatStorage/ChatRoomStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/ChatStorage/ComplaintsStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/ChatStorage/MessageStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/ChatStorage/ParticipantStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/DataBase.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/FileStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/LogStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/ProfileStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/Storage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NDatabase/UserStorage.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Properties/AssemblyInfo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Testing/TestFunctional/FilesControlTest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/BouncyCastle.Crypto.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/Google.Protobuf.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/Google.Protobuf.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/MiniMessanger.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/MiniMessanger.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/MySql.Data.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/MySql.Data.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/Newtonsoft.Json.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/Newtonsoft.Json.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/ProfilePhoto/24-6-2019/862374653" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/ProfilePhoto/26-6-2019/1115164864" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/database.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/10-7-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/11-7-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/13-9-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/16-7-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/20-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/21-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/24-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/25-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/26-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/27-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/31-7-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/4-8-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/4-9-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/files/logs/5-8-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/BouncyCastle.Crypto.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/Google.Protobuf.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/Google.Protobuf.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/MiniMessanger.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/MySql.Data.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/MySql.Data.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/Newtonsoft.Json.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/Newtonsoft.Json.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/database.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/13-9-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/16-7-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/20-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/21-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/24-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/25-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/26-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/27-6-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/4-8-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/files/logs/4-9-2019" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/minimessanger/conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/minimessanger/database.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/minimessanger/mm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/minimessanger/mm.service" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Release/mm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Debug/MiniMessanger.csproj.CopyComplete" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Debug/MiniMessanger.csproj.CoreCompileInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Debug/MiniMessanger.csproj.FileListAbsolute.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Debug/MiniMessanger.csprojAssemblyReference.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Debug/MiniMessanger.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Debug/MiniMessanger.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Release/MiniMessanger.csproj.CopyComplete" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Release/MiniMessanger.csproj.CoreCompileInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Release/MiniMessanger.csproj.FileListAbsolute.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Release/MiniMessanger.csprojAssemblyReference.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/x86/Release/MiniMessanger.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages.config" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/OperateLoggerFactory.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/ServerConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/Settings/DatabaseSettings.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/Settings/HostSettings.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/Settings/SmtpSettings.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/Tools/IMailer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/Tools/Mailer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/BlockUserCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/ChangePasswordCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/CheckRecoveryCodeCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/ComplaintContentCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/CreateChatCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/DeleteCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/GetBlockedUsersCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/GetNonBlockedUsersCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/GetUsersListCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/LogOutCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/LoginCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/RecoveryPasswordCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/RegistrationCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/RegistrationEmailCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/SelectChatsCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/SelectMessagesCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/SendMessageCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/UnblockUserCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Commands/UpdateProfileCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/BlockedUserDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/ChatDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/ChatRoomDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/ChatUserDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/LoginDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/MessageDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/RecoveryTokenDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Contract/Queries/UserDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/Context.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Repositories/IUsersRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Repositories/UsersRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UrlsFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/Chating/BlockedUserDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/Chating/ChatDataDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/Chating/ChatRoomDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/Chating/ChatUserDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/Chating/ComplaintDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/Chating/MessageDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/Chating/ParticipantDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/DataResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Contract/DataResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/FileDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Contract/FileDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/MessageResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Contract/MessageResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/ProfileDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dtos/UserDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/BlockedUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/BlockedUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/ChatRoom.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/ChatRoom.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Complaint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Complaint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Message.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Message.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Participant.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Participant.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/UploadFile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/UploadFile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Common/Config.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Common/HTTPHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Common/HttpRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Common/LoaderFile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Common/Router.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Common/Server.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Common/Starter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Controllers/UserController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Functional/Chats/ChatModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Functional/Chats/ChatServer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Functional/MailF.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Functional/Validator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Tools/ProfileCondition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/MiniMessanger.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Chat/BlockedUser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Chat/ChatData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Chat/ChatRoom.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Chat/ChatUser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Chat/Complaint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Chat/Message.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Chat/Participant.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/FileD.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/JsonData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/JsonMessage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/Log.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/ProfileData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/Models/UserCache.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/ChatStorage/BlockedUserStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/ChatStorage/ChatRoomStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/ChatStorage/ComplaintsStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/ChatStorage/MessageStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/ChatStorage/ParticipantStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/DataBase.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/FileStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/LogStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/ProfileStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/Storage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/NDatabase/UserStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/BouncyCastle.Crypto.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/Google.Protobuf.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/Google.Protobuf.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/MiniMessanger.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/MiniMessanger.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/MySql.Data.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/MySql.Data.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/Newtonsoft.Json.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/Newtonsoft.Json.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/ProfilePhoto/24-6-2019/862374653" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/ProfilePhoto/26-6-2019/1115164864" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/database.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/10-7-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/11-7-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/13-9-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/16-7-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/20-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/21-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/24-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/25-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/26-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/27-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/31-7-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/4-8-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/4-9-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Debug/files/logs/5-8-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/BouncyCastle.Crypto.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/Google.Protobuf.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/Google.Protobuf.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/MiniMessanger.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/MySql.Data.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/MySql.Data.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/Newtonsoft.Json.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/Newtonsoft.Json.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/database.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/13-9-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/16-7-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/20-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/21-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/24-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/25-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/26-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/27-6-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/4-8-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/files/logs/4-9-2019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/minimessanger/conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/minimessanger/database.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/minimessanger/mm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/minimessanger/mm.service" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OldTrash/bin/Release/mm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mini-message.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/mini-message.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp3.1/mini-message.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/netcoreapp3.1/mini-message.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp3.1/mini-message.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/netcoreapp3.1/mini-message.csprojAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/mini-message.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/mini-message.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/mini-message.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/obj/mini-message.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/mini-message.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/obj/mini-message.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,36 +193,68 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/BF437617-3FC2-435D-AF0D-EC5C3975BFFE/5/HttpsRedirectionMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/D5EDF430-AB5A-4412-A0B9-E75F3C32EB0A/187/ModelValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E47CDD0A-CDA3-44CA-B3A5-C818AD13EBA9/16/EndpointRoutingMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/AD61CA47-F8B7-4CC6-93A0-BA44CC73B5C7/1E0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/D5EDF430-AB5A-4412-A0B9-E75F3C32EB0A/A/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F680C866-D120-4163-9634-EBD842255BE9/150/ControllerActivatorProvider.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Controllers/UsersController.cs" />
-        <option value="$PROJECT_DIR$/OldTrash/Common/Starter.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Chat/BlockedUser.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Chating/ChatData.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Chating/ChatRoom.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Chating/ChatUser.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Chating/Complaint.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Chating/Message.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Chating/Participant.cs" />
-        <option value="$PROJECT_DIR$/Dtos/FileD.cs" />
-        <option value="$PROJECT_DIR$/Dtos/JsonData.cs" />
-        <option value="$PROJECT_DIR$/Dtos/JsonMessage.cs" />
-        <option value="$PROJECT_DIR$/Dtos/ProfileData.cs" />
-        <option value="$PROJECT_DIR$/Dtos/UserCache.cs" />
-        <option value="$PROJECT_DIR$/Dtos/DataResponse.cs" />
-        <option value="$PROJECT_DIR$/Dtos/Log.cs" />
-        <option value="$PROJECT_DIR$/Dtos/UserDto.cs" />
-        <option value="$PROJECT_DIR$/Dtos/FileDto.cs" />
-        <option value="$PROJECT_DIR$/appsettings.json" />
+        <option value="$PROJECT_DIR$/Common/Tools/IMailer.cs" />
+        <option value="$PROJECT_DIR$/Common/Tools/Validator.cs" />
+        <option value="$PROJECT_DIR$/Common/ServerConfiguration.cs" />
+        <option value="$PROJECT_DIR$/Common/OperateLoggerFactory.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/LoginCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/LoginDto.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/LogOutCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/RecoveryPasswordCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/ChangePasswordCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/RecoveryTokenCommand.cs" />
+        <option value="$PROJECT_DIR$/Common/Tools/ProfileCondition.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/RegistrationEmailCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/DeleteCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/GetUsersListCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/UserDto.cs" />
         <option value="$PROJECT_DIR$/Models/User.cs" />
-        <option value="$PROJECT_DIR$/Models/Profile.cs" />
-        <option value="$PROJECT_DIR$/Models/Participant.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/RegistrationCommand.cs" />
+        <option value="$PROJECT_DIR$/Repositories/GetNonBlockedUsersCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/GetNonBlockedUsersCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/UpdateProfileCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/ChatUser.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/CreateChatCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/SendMessageCommand.cs" />
         <option value="$PROJECT_DIR$/Models/Message.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/BlockUserCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/GetBlockedUsersCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/BlockedUserDto.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/UnblockUserCommand.cs" />
+        <option value="$PROJECT_DIR$/Dtos/UserDto.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/ComplaintContentCommand.cs" />
         <option value="$PROJECT_DIR$/Models/Complaint.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/MessageDto.cs" />
+        <option value="$PROJECT_DIR$/Dtos/Chating/ChatDataDto.cs" />
+        <option value="$PROJECT_DIR$/UrlsFactory.cs" />
+        <option value="$PROJECT_DIR$/appsettings.json" />
+        <option value="$PROJECT_DIR$/Models/Context.cs" />
+        <option value="$PROJECT_DIR$/Program.cs" />
         <option value="$PROJECT_DIR$/Models/ChatRoom.cs" />
-        <option value="$PROJECT_DIR$/Models/BlockedUser.cs" />
-        <option value="$PROJECT_DIR$/Models/UploadFile.cs" />
+        <option value="$PROJECT_DIR$/Models/Participant.cs" />
+        <option value="$PROJECT_DIR$/Repositories/IUsersRepository.cs" />
+        <option value="$PROJECT_DIR$/Common/Tools/Mailer.cs" />
+        <option value="$PROJECT_DIR$/Contract/MessageResponse.cs" />
+        <option value="$PROJECT_DIR$/Contract/DataResponse.cs" />
+        <option value="$PROJECT_DIR$/Contract/FileDto.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/CheckRecoveryCodeCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/ChatRoomDto.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/SelectChatsCommand.cs" />
+        <option value="$PROJECT_DIR$/Contract/Commands/SelectMessagesCommand.cs" />
+        <option value="$PROJECT_DIR$/Repositories/UsersRepository.cs" />
+        <option value="$PROJECT_DIR$/Contract/Queries/ChatDto.cs" />
+        <option value="$PROJECT_DIR$/Controllers/UsersController.cs" />
       </list>
     </option>
   </component>
@@ -184,6 +264,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.3502052" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.3002736" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -196,19 +278,19 @@
   </component>
   <component name="RunManager" selected=".NET Project.MiniMessanger">
     <configuration name="MiniMessanger" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/netcoreapp3.1/mini-message.dll" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/MiniMessanger.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/mini-message.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
-      <option name="PROJECT_KIND" value="Console" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v3.1" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -254,6 +336,10 @@
       <updated>1603372983982</updated>
       <workItem from="1603373006696" duration="718000" />
       <workItem from="1603373755946" duration="2447000" />
+      <workItem from="1603429742704" duration="8614000" />
+      <workItem from="1603604566805" duration="8006000" />
+      <workItem from="1603734304309" duration="8177000" />
+      <workItem from="1603779590716" duration="5108000" />
     </task>
     <servers />
   </component>
@@ -272,14 +358,107 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1603375302219">
+    <state width="437" height="464" key="DebuggerActiveHint" timestamp="1603783342354">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1603375302219" />
+    <state width="437" height="464" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1603783342354" />
+    <state width="1493" height="270" key="GridCell.Tab.0.bottom" timestamp="1603784237282">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603784237282" />
+    <state width="1493" height="270" key="GridCell.Tab.0.center" timestamp="1603784237282">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1603784237282" />
+    <state width="1493" height="270" key="GridCell.Tab.0.left" timestamp="1603784237282">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1603784237282" />
+    <state width="1493" height="270" key="GridCell.Tab.0.right" timestamp="1603784237282">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1603784237282" />
+    <state width="1493" height="270" key="GridCell.Tab.1.bottom" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.1.center" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.1.left" timestamp="1603784236822">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1603784236822" />
+    <state width="1493" height="270" key="GridCell.Tab.1.right" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.2.bottom" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.2.center" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.2.left" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.2.right" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.3.bottom" timestamp="1603784236824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603784236824" />
+    <state width="1493" height="270" key="GridCell.Tab.3.center" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.3.left" timestamp="1603784236823">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1603784236823" />
+    <state width="1493" height="270" key="GridCell.Tab.3.right" timestamp="1603784236824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1603784236824" />
+    <state width="1493" height="270" key="GridCell.Tab.4.bottom" timestamp="1603784236824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.4.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603784236824" />
+    <state width="1493" height="270" key="GridCell.Tab.4.center" timestamp="1603784236824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.4.center/0.0.1536.824@0.0.1536.824" timestamp="1603784236824" />
+    <state width="1493" height="270" key="GridCell.Tab.4.left" timestamp="1603784236824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.4.left/0.0.1536.824@0.0.1536.824" timestamp="1603784236824" />
+    <state width="1493" height="270" key="GridCell.Tab.4.right" timestamp="1603784236824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.4.right/0.0.1536.824@0.0.1536.824" timestamp="1603784236824" />
+    <state x="450" y="0" width="636" height="824" key="find.popup" timestamp="1603431573150">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="450" y="0" width="636" height="824" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1603431573150" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1603432559684">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1603432559684" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1603612710213">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1603612710213" />
   </component>
 </project>

@@ -1,0 +1,13 @@
+2020-10-27 09:35:29.771 +02:00 [INF] Setting up mailer.
+2020-10-27 09:37:40.518 +02:00 [INF] Setting up mailer.
+2020-10-27 09:37:41.878 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:37:49.517 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:38:53.300 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:40:33.112 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.MessageResponse'.
+2020-10-27 09:40:37.843 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:40:44.748 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:40:52.419 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:42:29.955 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:42:44.805 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
+2020-10-27 09:43:40.049 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.MessageResponse'.
+2020-10-27 09:43:51.090 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.

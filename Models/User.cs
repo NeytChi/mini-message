@@ -11,9 +11,9 @@ namespace mini_message.Models
         public string Password { get; set; }
         public string Hash { get; set; }
         public short Activate { get; set; }
-        public int CreatedAt { get; set; }
+        public long CreatedAt { get; set; }
         public string Token { get; set; }
-        public int LastLoginAt { get; set; }
+        public long LastLoginAt { get; set; }
         public int RecoveryCode { get; set; }
         public string RecoveryToken { get; set; }
         public string PublicToken { get; set; }
