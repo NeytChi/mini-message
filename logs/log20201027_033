@@ -1,5 +1,0 @@
-2020-10-27 09:43:51.064 +02:00 [INF] Setting up mailer.
-2020-10-27 09:46:20.172 +02:00 [INF] Setting up mailer.
-2020-10-27 09:46:21.538 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.MessageResponse'.
-2020-10-27 09:46:27.442 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.
-2020-10-27 09:46:40.556 +02:00 [INF] Executing ObjectResult, writing value of type 'mini_message.Dtos.DataResponse'.

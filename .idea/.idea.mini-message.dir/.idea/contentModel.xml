@@ -4,6 +4,7 @@
     <e p="C:\Users\Админ\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Админ\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_.19.00" t="ExcludeRecursive" />
     <e p="C:\Users\Админ\Documents\GitHub\mini-message" t="IncludeRecursive">
+      <e p=".gitignore" t="Include" />
       <e p="appsettings.Development.json" t="Include" />
       <e p="appsettings.json" t="Include" />
       <e p="bin" t="ExcludeRecursive" />
@@ -59,39 +60,6 @@
       </e>
       <e p="Controllers" t="Include">
         <e p="UsersController.cs" t="Include" />
-      </e>
-      <e p="logs" t="Include">
-        <e p="log20201027_003" t="Include" />
-        <e p="log20201027_004" t="Include" />
-        <e p="log20201027_005" t="Include" />
-        <e p="log20201027_006" t="Include" />
-        <e p="log20201027_007" t="Include" />
-        <e p="log20201027_008" t="Include" />
-        <e p="log20201027_009" t="Include" />
-        <e p="log20201027_010" t="Include" />
-        <e p="log20201027_011" t="Include" />
-        <e p="log20201027_012" t="Include" />
-        <e p="log20201027_013" t="Include" />
-        <e p="log20201027_014" t="Include" />
-        <e p="log20201027_015" t="Include" />
-        <e p="log20201027_016" t="Include" />
-        <e p="log20201027_017" t="Include" />
-        <e p="log20201027_018" t="Include" />
-        <e p="log20201027_019" t="Include" />
-        <e p="log20201027_020" t="Include" />
-        <e p="log20201027_021" t="Include" />
-        <e p="log20201027_022" t="Include" />
-        <e p="log20201027_023" t="Include" />
-        <e p="log20201027_024" t="Include" />
-        <e p="log20201027_025" t="Include" />
-        <e p="log20201027_026" t="Include" />
-        <e p="log20201027_027" t="Include" />
-        <e p="log20201027_028" t="Include" />
-        <e p="log20201027_029" t="Include" />
-        <e p="log20201027_030" t="Include" />
-        <e p="log20201027_031" t="Include" />
-        <e p="log20201027_032" t="Include" />
-        <e p="log20201027_033" t="Include" />
       </e>
       <e p="mini-message.csproj" t="IncludeRecursive" />
       <e p="Models" t="Include">
