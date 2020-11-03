@@ -1,0 +1,48 @@
+version: "3.7"
+
+networks:
+  localdev:
+    name: localdev
+
+services:
+  app:
+    image: neytchi/mimicrymessanger
+    restart: always
+    ports:
+      - 5000:80
+    depends_on:
+      - mysql
+    networks:
+      - localdev
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: mimicrymessanger
+    networks:
+      - localdev
+
+volumes:
+  todo-mysql-data:
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

@@ -17,10 +17,6 @@ namespace mini_message
     {
         public static void Main(string[] args)
         {
-            var context = new Context();
-            context.Database.EnsureCreated();
-            
-            
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
