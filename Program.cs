@@ -22,7 +22,7 @@ namespace mini_message
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseSerilog()
-                .UseUrls(new UrlsFactory().GetHttp())
+                .UseUrls(new UrlsFactory().GetHttp(80))
                 .Build()
                 .Run();
         }

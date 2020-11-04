@@ -24,12 +24,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea25bfe2-1e1c-4bb0-936e-1c8f52bb8c65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mini-message.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UrlsFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UrlsFactory.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,12 +94,12 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/.dockerignore" />
         <option value="$PROJECT_DIR$/Dockerfile" />
-        <option value="$PROJECT_DIR$/Program.cs" />
         <option value="$PROJECT_DIR$/bin/Release/netcoreapp3.1/linux-x64/appsettings.json" />
         <option value="$PROJECT_DIR$/Common/OperateLoggerFactory.cs" />
-        <option value="$PROJECT_DIR$/docker-compose.yaml" />
-        <option value="$PROJECT_DIR$/appsettings.json" />
         <option value="$PROJECT_DIR$/UrlsFactory.cs" />
+        <option value="$PROJECT_DIR$/Program.cs" />
+        <option value="$PROJECT_DIR$/appsettings.json" />
+        <option value="$PROJECT_DIR$/docker-compose.yaml" />
       </list>
     </option>
   </component>
@@ -191,6 +188,8 @@
       <workItem from="1603734304309" duration="8177000" />
       <workItem from="1603779590716" duration="7613000" />
       <workItem from="1604398721450" duration="11066000" />
+      <workItem from="1604423615212" duration="1073000" />
+      <workItem from="1604472964437" duration="5299000" />
     </task>
     <task id="LOCAL-00001" summary="INF: Add .gitignore file">
       <created>1604399250584</created>
@@ -199,7 +198,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604399250584</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="INF: Add docker pipeline for proj">
+      <created>1604424131137</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604424131137</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,7 +228,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="INF: Add .gitignore file" />
-    <option name="LAST_COMMIT_MESSAGE" value="INF: Add .gitignore file" />
+    <MESSAGE value="INF: Add docker pipeline for proj" />
+    <option name="LAST_COMMIT_MESSAGE" value="INF: Add docker pipeline for proj" />
   </component>
   <component name="WindowStateProjectService">
     <state x="516" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604400141701">
@@ -313,10 +320,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="270" key="GridCell.Tab.4.right/0.0.1536.824@0.0.1536.824" timestamp="1603788396843" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1604399263319">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1604424465734">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1604399263319" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1604424465734" />
     <state x="450" y="0" width="636" height="824" key="find.popup" timestamp="1603431573150">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

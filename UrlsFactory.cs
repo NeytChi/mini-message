@@ -12,5 +12,9 @@ namespace mini_message
             var hostSettings = configurationRoot.GetSection("HostSettings").Get<HostSettings>();
             return "http://*:" + hostSettings.PortHttp;
         }
+        public string GetHttp(int portHttp)
+        {
+            return "http://*:" + portHttp;
+        }
     }
 }
